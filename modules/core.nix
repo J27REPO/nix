@@ -11,7 +11,7 @@
     # EL SCRIPT MAGICO 'RELOAD'
     (writeShellScriptBin "reload" ''
       echo "🔄 Reconstruyendo NixOS para: $(hostname)..."
-      flakePath="$HOME/nixos-config"
+      flakePath="$HOME/nix"
       git -C $flakePath add .
       sudo nixos-rebuild switch --flake "$flakePath#$(hostname)" --impure
       echo "✅ ¡Listo! Sistema actualizado."
