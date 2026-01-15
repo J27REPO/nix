@@ -16,12 +16,9 @@
   home.packages = with pkgs; [
     # Navegadores y Apps
     firefox
-    discord
-    spotify
-    #dolphin
     thunar 
     # Herramientas de Sistema
-    rofi-wayland
+    rofi
     waybar
     pavucontrol
     micro      # <--- TU NUEVO EDITOR FAVORITO
