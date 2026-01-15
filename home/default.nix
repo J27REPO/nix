@@ -18,8 +18,8 @@
     firefox
     discord
     spotify
-    dolphin
-    
+    #dolphin
+    thunar 
     # Herramientas de Sistema
     rofi-wayland
     waybar
