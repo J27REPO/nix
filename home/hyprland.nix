@@ -11,7 +11,7 @@
       # --- VARIABLES ---
       "$mainMod" = "SUPER";
       "$terminal" = "kitty";
-      "$fileManager" = "dolphin";
+      "$fileManager" = "thunar";
       "$menu" = "rofi -show drun";
       
       # --- INPUT (TECLADO DINÁMICO) ---
