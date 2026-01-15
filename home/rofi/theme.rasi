@@ -1,0 +1,109 @@
+/*******************************************************************************
+ * ROFI Color theme
+ * Theme: Minimal Black Transparent
+ * Copyright: J27
+ *******************************************************************************/
+
+* {
+    /* Colores Base */
+    bg-col:  rgba(0, 0, 0, 0.75);   /* Negro al 75% de opacidad */
+    bg-col-light: rgba(255, 255, 255, 0.05); /* Un gris muy sutil para inputs */
+    border-col: rgba(255, 255, 255, 0.1);    /* Borde blanco muy tenue */
+    selected-col: rgba(255, 255, 255, 0.1);  /* Color de selección suave */
+    blue: #89b4fa; /* Un azul suave (estilo Catppuccin) para resaltar */
+    fg-col: #cdd6f4;
+    fg-col2: #f38ba8;
+    grey: #6c7086;
+
+    width: 600;
+    font: "JetBrainsMono Nerd Font 12"; /* O la fuente que uses */
+    background-color: transparent; /* Importante para que el fondo global sea transparente */
+}
+
+element-text, element-icon , mode-switcher {
+    background-color: inherit;
+    text-color:       inherit;
+}
+
+window {
+    height: 360px;
+    border: 2px;
+    border-color: @border-col;
+    background-color: @bg-col;
+    border-radius: 15px; /* Bordes redondeados */
+}
+
+mainbox {
+    background-color: transparent;
+}
+
+inputbar {
+    children: [prompt,entry];
+    background-color: transparent;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+prompt {
+    background-color: @blue;
+    padding: 6px;
+    text-color: @bg-col;
+    border-radius: 3px;
+    margin: 20px 0px 0px 20px;
+}
+
+textbox-prompt-colon {
+    expand: false;
+    str: ":";
+}
+
+entry {
+    padding: 6px;
+    margin: 20px 0px 0px 10px;
+    text-color: @fg-col;
+    background-color: transparent;
+    placeholder: "Buscar...";
+    placeholder-color: @grey;
+}
+
+listview {
+    border: 0px 0px 0px;
+    padding: 6px 0px 0px;
+    margin: 10px 20px 0px 20px;
+    columns: 1; /* Lista vertical simple */
+    lines: 5;
+    background-color: transparent;
+}
+
+element {
+    padding: 5px;
+    background-color: transparent;
+    text-color: @fg-col;
+    border-radius: 5px;
+}
+
+element-icon {
+    size: 25px;
+}
+
+element selected {
+    background-color:  @selected-col; /* Fondo suave al seleccionar */
+    text-color: @blue; /* Texto azul al seleccionar */
+}
+
+mode-switcher {
+    spacing: 0;
+  }
+
+button {
+    padding: 10px;
+    background-color: @bg-col-light;
+    text-color: @grey;
+    vertical-align: 0.5; 
+    horizontal-align: 0.5;
+}
+
+button selected {
+  background-color: @bg-col;
+  text-color: @blue;
+}
