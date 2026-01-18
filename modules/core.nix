@@ -1,8 +1,11 @@
-{ pkgs, ... }:
+{ pkgs,user, ... }:
 
 {
   # 1. Habilitar Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nixpkgs.config.allowUnfree = true;
+  system.stateVersion = "24.05";
+
   programs.zsh.enable = true;
   # 2. Paquetes del Sistema Comunes
   environment.systemPackages = with pkgs; [
@@ -51,4 +54,32 @@
         ]
     }
   '';
+  programs.hyprland.enable = true;
+  
+  # Activar hyprland wayland
+  programs.hyprland.xwayland.enable = true;
+  # Servicios de bluetooth
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
+  
+  services.gvfs.enable = true;    # Necesario para Thunar y montajes
+    services.udisks2.enable = true; # Gestiona los discos duros y USBs
+  # Bloqueo de pantalla 
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
+
+  # Auto inicio de sesion 
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = user;
+
+  # No passwd con sudo 
+  security.sudo.wheelNeedsPassword = false;
+
+  boot.loader.systemd-boot.configurationLimit = 5;
+  boot.loader.timeout = 0;
+  nix.gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
 }

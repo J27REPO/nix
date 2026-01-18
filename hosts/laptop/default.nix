@@ -11,7 +11,7 @@
 
   # Habilitar el programa Hyprland a nivel sistema (Login manager, binarios)
   # PERO la config visual está ahora en Home Manager
-  programs.hyprland.enable = true;
+  
 
   # Usuario
   users.users.${user} = {

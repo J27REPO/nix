@@ -1,4 +1,4 @@
-{config,  pkgs, user, ... }:
+{config,  pkgs, user, inputs, ... }:
 
 {
   imports = [ ./hyprland.nix ];
@@ -15,16 +15,24 @@
 
   home.packages = with pkgs; [
     # Navegadores y Apps
+    blueman
+    udiskie
     firefox
-    discord
-    spotify
-    dolphin
-    
+    inputs.autofirma-nix.packages.${pkgs.system}.autofirma
+    thunar  
+    libreoffice
+    vicinae   
+    swww
+    psmisc
+    feh
+    gemini-cli
+    swayosd
     # Herramientas de Sistema
-    rofi-wayland
+    rofi
     waybar
     pavucontrol
-    micro      # <--- TU NUEVO EDITOR FAVORITO
+    micro     
+    vscode
     
     # Multimedia y Scripts
     mpv
@@ -32,26 +40,35 @@
     grim
     slurp
     wl-clipboard
-    
+    # SONIDO Y FEEDBACK
+      sound-theme-freedesktop   # Los sonidos estándar (pop, click, etc.)
+      libcanberra-gtk3          # Contiene el comando 'canberra-gtk-play'
     # Fuentes
     nerd-fonts.jetbrains-mono
   ];
 
+  # 2. Copiar tu imagen a una ruta conocida en el sistema (~/.config/hypr/wallpaper.png)
+    xdg.configFile."hypr/wallpaper.png".source = ./wallpaper.png;
+  
   # --- CONFIGURACIÓN DE KITTY (Con efecto de cursor) ---
   programs.kitty = {
     enable = true;
-    theme = "Catppuccin-Mocha";
+    theme = "Tokyo Night";
     settings = {
       font_family = "JetBrainsMono Nerd Font";
       font_size = 12;
       confirm_os_window_close = 0; # Cierra sin preguntar
       
       # EFECTOS DEL CURSOR
-      cursor_shape = "beam";     # Forma: bloque, viga (beam) o subrayado
+      cursor_shape = "block";     # Forma: bloque, viga (beam) o subrayado
       cursor_beam_thickness = 1.5;
       cursor_trail = 3;          # <--- LA MAGIA: Longitud del rastro (1 min - 100 max)
       cursor_trail_decay = "0.1 0.4"; # Cómo se desvanece
     };
+    keybindings = {
+          "ctrl+c" = "copy_to_clipboard";
+          "ctrl+v" = "paste_from_clipboard";
+        };
   };
 
   # --- TEMA GTK (Para que Micro/Dolphin se vean oscuros) ---
@@ -85,7 +102,10 @@
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
-
+	initContent = ''
+	      fastfetch
+	      stty intr ^Z
+	    '';
     shellAliases = {
       ll = "ls -l";
       update = "sudo nixos-rebuild switch --flake ~/nixos-config#laptop"; # Ajusta el hostname según toque
@@ -165,7 +185,23 @@
 
   programs.git = {
     enable = true;
-    userName = "J27REPO";
-    userEmail = "josesf2004@gmail.com";
+    settings.user.name = "J27REPO";
+    settings.user.email = "josesf2004@gmail.com";
   };
+
+ home.pointerCursor = {
+     gtk.enable = true;
+     x11.enable = true;
+     name = "Notwaita-Black";
+     size = 24;
+ 
+     # USANDO ARCHIVOS LOCALES
+     package = pkgs.runCommand "notwaita-cursor" {} ''
+       mkdir -p $out/share/icons/Notwaita-Black
+       # Copiamos todo el contenido de tu carpeta local al sistema
+       cp -r ${./icons/Notwaita-Black}/* $out/share/icons/Notwaita-Black/
+     '';
+   };
+
+  
 }

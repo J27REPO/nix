@@ -8,10 +8,40 @@
     # systemd.user.services.waybar.enable = false; 
 
     settings = {
+      
+      # --- WINDOW RULES ---
+windowrulev2 = [
+        # Kitty (Terminal)
+        "float, class:(kitty)"
+        "size 50% 50%, class:(kitty)"
+        "center, class:(kitty)"
+        
+        # Thunar (Archivos)
+        "float, class:(thunar)"
+        "size 50% 50%, class:(thunar)"
+        "center, class:(thunar)"
+      ];
+
+      exec-once = [
+              "vicinae server"
+              "swww-daemon"
+              "swww img ~/.config/hypr/wallpaper.png"
+              "udiskie --tray &"
+              "swayosd-server"
+            ];
+      bindr = [
+              "SUPER, SUPER_L, exec, vicinae toggle"
+            ];
+
+      misc = {
+        disable_hyprland_logo = true;
+        disable_splash_rendering = true;
+      };
+
       # --- VARIABLES ---
       "$mainMod" = "SUPER";
       "$terminal" = "kitty";
-      "$fileManager" = "dolphin";
+      "$fileManager" = "thunar";
       "$menu" = "rofi -show drun";
       
       # --- INPUT (TECLADO DINÁMICO) ---
@@ -28,7 +58,7 @@
         gaps_in = 5;
         gaps_out = 10;
         border_size = 2;
-        "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
+        "col.active_border" = "rgba(00f7ffee) rgba(bd00ffee) 45deg";
         "col.inactive_border" = "rgba(595959aa)";
         layout = "dwindle";
       };
@@ -44,13 +74,13 @@
 
       animations = {
         enabled = "yes";
-        bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
+        bezier = "fastBezier, 0.05, 0.9, 0.1, 1.05";
         animation = [
-          "windows, 1, 7, myBezier"
-          "windowsOut, 1, 7, default, popin 80%"
-          "border, 1, 10, default"
-          "fade, 1, 7, default"
-          "workspaces, 1, 6, default"
+          "windows, 1, 2, fastBezier"
+          "windowsOut, 1, 2, default, popin 80%"
+          "border, 1, 3, default"
+          "fade, 1, 2, default"
+          "workspaces, 1, 2, default"
         ];
       };
 
@@ -58,25 +88,38 @@
         pseudotile = "yes";
         preserve_split = "yes";
       };
+      binde = [
+        # Volumen (SwayOSD + Sonido)
+        # Usamos canberra-gtk-play para tocar el sonido del sistema
+        ", XF86AudioRaiseVolume, exec, swayosd-client --output-volume raise && canberra-gtk-play -i audio-volume-change -d 'changeVolume'"
+        ", XF86AudioLowerVolume, exec, swayosd-client --output-volume lower && canberra-gtk-play -i audio-volume-change -d 'changeVolume'"
+        
+        # Brillo (Laptop) - Sin sonido, solo visual
+        ", XF86MonBrightnessUp, exec, swayosd-client --brightness raise"
+        ", XF86MonBrightnessDown, exec, swayosd-client --brightness lower"
+      ];
 
       # --- TUS KEYBINDINGS (Estilo JaKooLit) ---
       bind = [
+        # Mute (No necesita repetición)
+            ", XF86AudioMute, exec, swayosd-client --output-volume mute-toggle"
+            ", XF86AudioMicMute, exec, swayosd-client --input-volume mute-toggle"
         # Apps
-        "$mainMod, Q, exec, $terminal"
+        "$mainMod, T, exec, $terminal"
         "$mainMod, E, exec, $fileManager"
         "$mainMod, W, exec, firefox"
         "$mainMod, D, exec, $menu"
         
         # Sistema
-        "$mainMod, C, killactive"
-        "$mainMod, M, exit"
-        "$mainMod, F, togglefloating"
+        "$mainMod, Q, killactive"
+       # "$mainMod, M, exit"
+        "$mainMod, SPACE, togglefloating"
         "$mainMod, P, pseudo"
         "$mainMod, J, togglesplit"
 
         # TUS SCRIPTS (Prepáralos para cuando subas los archivos)
          "$mainMod, M, exec, ~/.config/hypr/scripts/RofiBeats.sh" # Radio (Super+M)
-         "exec-once = ~/.config/hypr/scripts/RainbowBorders.sh"   # Bordes
+       #  "exec-once = ~/.config/hypr/scripts/RainbowBorders.sh"   # Bordes
 
         # Focus (Flechas)
         "$mainMod, left, movefocus, l"
@@ -125,11 +168,7 @@
         "$mainMod, mouse:273, resizewindow"
       ];
       
-      # Inicio automático
-      exec-once = [
-        "fastfetch"
-        # "nm-applet --indicator" # Útil si no usas waybar para ver el wifi
-      ];
+     
     };
   };
 }
