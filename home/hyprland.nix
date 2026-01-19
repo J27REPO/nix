@@ -1,4 +1,4 @@
-{ pkgs, kbLayout, kbOptions, ... }: 
+{ pkgs, kbLayout, kbOptions, monitorConfig, hostname, ... }: 
 
 {
   wayland.windowManager.hyprland = {
@@ -9,18 +9,18 @@
 
     settings = {
       
+      # --- MONITORES ---
+      monitor = [
+        monitorConfig
+      ];
+
       # --- WINDOW RULES ---
 windowrulev2 = [
-        # Kitty (Terminal)
-        "float, class:(kitty)"
-        "size 50% 50%, class:(kitty)"
-        "center, class:(kitty)"
-        
-        # Thunar (Archivos)
-        "float, class:(thunar)"
-        "size 50% 50%, class:(thunar)"
-        "center, class:(thunar)"
-      ];
+        "float, class:^(kitty)$"
+        "float, class:^(thunar)$"
+      ]; # <--- ¡ESTE PUNTO Y COMA ES IMPORTANTE!
+
+
 
       exec-once = [
               "vicinae server"
@@ -55,8 +55,8 @@ windowrulev2 = [
 
       # --- ESTÉTICA ---
       general = {
-        gaps_in = 5;
-        gaps_out = 10;
+        gaps_in = 2;
+        gaps_out = 5;
         border_size = 2;
         "col.active_border" = "rgba(00f7ffee) rgba(bd00ffee) 45deg";
         "col.inactive_border" = "rgba(595959aa)";
@@ -71,6 +71,10 @@ windowrulev2 = [
           passes = 1;
         };
       };
+
+      gesture = if hostname == "laptop" then [
+        "3, horizontal, workspace"
+      ] else [];
 
       animations = {
         enabled = "yes";

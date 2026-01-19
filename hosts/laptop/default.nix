@@ -9,6 +9,13 @@
   services.xserver.videoDrivers = [ "amdgpu" ];
   hardware.graphics = { enable = true; enable32Bit = true; };
 
+  fonts = {
+    fontconfig = {
+      antialias = true;
+      hinting.enable = true;
+    };
+  };
+
   # Habilitar el programa Hyprland a nivel sistema (Login manager, binarios)
   # PERO la config visual está ahora en Home Manager
   

@@ -1,4 +1,4 @@
-{config,  pkgs, user, inputs, ... }:
+{config,  pkgs, user, inputs, hostname, ... }:
 
 {
   imports = [ ./hyprland.nix ];
@@ -27,6 +27,8 @@
     feh
     gemini-cli
     swayosd
+    hyprshade
+    gammastep
     # Herramientas de Sistema
     rofi
     waybar
@@ -48,7 +50,7 @@
   ];
 
   # 2. Copiar tu imagen a una ruta conocida en el sistema (~/.config/hypr/wallpaper.png)
-    xdg.configFile."hypr/wallpaper.png".source = ./wallpaper.png;
+    xdg.configFile."hypr/wallpaper.png".source = if hostname == "laptop" then ./laptop_wallpaper.jpg else ./wallpaper.png;
   
   # --- CONFIGURACIÓN DE KITTY (Con efecto de cursor) ---
   programs.kitty = {
@@ -203,5 +205,19 @@
      '';
    };
 
+   # --- CONTROL DE LUZ NOCTURNA (Gammastep) ---
+   services.gammastep = {
+     enable = true;
+     provider = "manual"; # Manual para que pongas tu lat/long o lo controles tú
+     latitude = 40.4;    # Madrid aprox (puedes cambiarlo)
+     longitude = -3.7;
+     temperature = {
+       day = 6500;   # Color neutro de día
+       night = 4500; # Un poco más cálido de noche (no naranja exagerado)
+     };
+     settings = {
+       general.fade = "1"; # Transición suave
+     };
+   };
   
 }

@@ -5,7 +5,7 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "24.05";
-
+  programs.ssh.startAgent = true;
   programs.zsh.enable = true;
   # 2. Paquetes del Sistema Comunes
   environment.systemPackages = with pkgs; [

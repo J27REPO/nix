@@ -13,13 +13,13 @@
       system = "x86_64-linux";
       user = "j27";
       
-      # Función modificada para aceptar argumentos de teclado
-      mkHost = hostname: kbLayout: kbOptions: nixpkgs.lib.nixosSystem {
+      # Función modificada para aceptar argumentos de teclado y monitor
+      mkHost = hostname: kbLayout: kbOptions: monitorConfig: nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = { 
           inherit inputs user; 
-          # Pasamos las variables de teclado a todo el sistema
-          inherit kbLayout kbOptions;
+          # Pasamos las variables de teclado y monitor a todo el sistema
+          inherit kbLayout kbOptions monitorConfig;
         };
         modules = [
           ./modules/core.nix
@@ -27,7 +27,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs user kbLayout kbOptions; };
+            home-manager.extraSpecialArgs = { inherit inputs user kbLayout kbOptions monitorConfig hostname; };
             home-manager.users.${user} = import ./home/default.nix;
           }
           ./hosts/${hostname}/default.nix
@@ -37,11 +37,11 @@
     in
     {
       nixosConfigurations = {
-        # Laptop: Español, sin opciones raras
-        laptop = mkHost "laptop" "es" "";
+        # Laptop: Español, monitor automático a escala 1
+        laptop = mkHost "laptop" "es" "" ",preferred,auto,1";
 
-        # Mac Mini: Inglés (US), Alt/Win intercambiados, CapsLock es Compose
-        macmini = mkHost "macmini" "us" "altwin:swap_lalt_lwin,compose:caps";
+        # Mac Mini: Inglés (US), Monitor preferido automático
+        macmini = mkHost "macmini" "us" "altwin:swap_lalt_lwin,compose:caps" ",preferred,auto,1";
       };
     };
 }
