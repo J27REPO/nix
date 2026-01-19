@@ -116,6 +116,7 @@
         "$mainMod ALT, E, exec, thunar --class floating_thunar"
         
         "$mainMod, W, exec, firefox"
+        "$mainMod, C, exec, code"
         "$mainMod, D, exec, $menu"
         
         # Sistema
