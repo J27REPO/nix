@@ -15,6 +15,8 @@
 
   home.packages = with pkgs; [
     # Navegadores y Apps
+    mupdf
+    unzip
     blueman
     udiskie
     firefox
@@ -30,6 +32,7 @@
     hyprshade
     gammastep
     # Herramientas de Sistema
+    jdk21
     rofi
     waybar
     pavucontrol
