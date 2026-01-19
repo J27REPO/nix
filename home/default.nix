@@ -62,10 +62,22 @@
       confirm_os_window_close = 0; # Cierra sin preguntar
       
       # EFECTOS DEL CURSOR
-      cursor_shape = "block";     # Forma: bloque, viga (beam) o subrayado
-      cursor_beam_thickness = 1.5;
-      cursor_trail = 3;          # <--- LA MAGIA: Longitud del rastro (1 min - 100 max)
-      cursor_trail_decay = "0.1 0.4"; # Cómo se desvanece
+      cursor_shape = "block";
+      shell_integration = "no-cursor"; # Evita que la shell cambie el cursor
+      cursor_trail = 3;          
+      cursor_trail_decay = "0.1 0.4"; 
+
+      # ESTÉTICA MODERNA
+      window_padding_width = 15;   # Margen interno para que el texto no toque el borde
+      background_opacity = "0.90"; # Un poco de transparencia
+      url_style = "curly";         # Subrayado ondulado para links
+      disable_ligatures = "never"; # Asegura que las ligaduras (->, !=) se vean bonitas
+
+      # BARRA DE PESTAÑAS (TABS)
+      tab_bar_style = "powerline";
+      tab_powerline_style = "slanted";
+      active_tab_font_style = "bold";
+      inactive_tab_font_style = "normal";
     };
     keybindings = {
           "ctrl+c" = "copy_to_clipboard";
@@ -104,10 +116,19 @@
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
-	initContent = ''
-	      fastfetch
-	      stty intr ^Z
-	    '';
+    
+    # Corregido: initContent -> initExtra (estándar de home-manager)
+    initExtra = ''
+      fastfetch
+      stty intr ^Z
+      
+      # Forzar cursor de bloque en cada nuevo prompt
+      # \e[2 q = Block, \e[6 q = Beam
+      precmd() {
+        echo -ne '\e[2 q'
+      }
+    '';
+
     shellAliases = {
       ll = "ls -l";
       update = "sudo nixos-rebuild switch --flake ~/nixos-config#laptop"; # Ajusta el hostname según toque

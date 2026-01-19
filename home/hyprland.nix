@@ -15,12 +15,11 @@
       ];
 
       # --- WINDOW RULES ---
-windowrulev2 = [
-        "float, class:^(kitty)$"
-        "float, class:^(thunar)$"
-      ]; # <--- ¡ESTE PUNTO Y COMA ES IMPORTANTE!
-
-
+      windowrulev2 = [
+        "float, class:^(floating_.*)$"  # Flotar cualquier cosa que empiece por floating_
+        "center, class:^(floating_.*)$"
+        "size 60% 60%, class:^(floating_.*)$"
+      ]; 
 
       exec-once = [
               "vicinae server"
@@ -111,6 +110,11 @@ windowrulev2 = [
         # Apps
         "$mainMod, T, exec, $terminal"
         "$mainMod, E, exec, $fileManager"
+        
+        # Lanzar flotantes usando el truco de la clase
+        "$mainMod ALT, T, exec, kitty --class floating_kitty"
+        "$mainMod ALT, E, exec, thunar --class floating_thunar"
+        
         "$mainMod, W, exec, firefox"
         "$mainMod, D, exec, $menu"
         
