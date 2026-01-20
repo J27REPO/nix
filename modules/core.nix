@@ -7,6 +7,21 @@
   system.stateVersion = "24.05";
   programs.ssh.startAgent = true;
   programs.zsh.enable = true;
+  services.usbmuxd.enable = true;
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTR{idVendor}=="05ac", MODE="0666"
+  '';
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    libusb1
+    libimobiledevice
+    usbmuxd
+    glibc
+    readline
+  ];
+  virtualisation.docker.enable = true;
+  # Añade tu usuario al grupo docker para no usar sudo siempre
+  users.users.j27.extraGroups = [ "docker" ];
   # 2. Paquetes del Sistema Comunes
   environment.systemPackages = with pkgs; [
     git vim wget curl kitty fastfetch

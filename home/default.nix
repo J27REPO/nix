@@ -15,6 +15,12 @@
 
   home.packages = with pkgs; [
     # Navegadores y Apps
+   libimobiledevice
+      libusbmuxd
+      usbmuxd
+      usbutils
+      pkg-config
+    ifuse
     mupdf
     unzip
     blueman
