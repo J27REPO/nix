@@ -108,6 +108,8 @@
             ", XF86AudioMute, exec, swayosd-client --output-volume mute-toggle"
             ", XF86AudioMicMute, exec, swayosd-client --input-volume mute-toggle"
         # Apps
+        "$mainMod SHIFT, P, exec, grim -g \"$(slurp)\" - | wl-copy"
+        ", Print, exec, grim -g \"$(slurp)\" - | wl-copy"
         "$mainMod, T, exec, $terminal"
         "$mainMod, E, exec, $fileManager"
         
