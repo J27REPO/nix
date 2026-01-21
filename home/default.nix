@@ -15,6 +15,8 @@
 
   home.packages = with pkgs; [
     # Navegadores y Apps
+    zotero
+    antigravity
     morgen
    libimobiledevice
       libusbmuxd
@@ -44,7 +46,6 @@
     waybar
     pavucontrol
     micro     
-    vscode
     
     # Multimedia y Scripts
     mpv
