@@ -8,6 +8,8 @@
   programs.ssh.startAgent = true;
   programs.zsh.enable = true;
   services.usbmuxd.enable = true;
+  services.flatpak.enable = true;
+  xdg.portal.enable = true;
   services.udev.extraRules = ''
     SUBSYSTEM=="usb", ATTR{idVendor}=="05ac", MODE="0666"
   '';
