@@ -2,7 +2,7 @@
 
 {
   imports = [ /etc/nixos/hardware-configuration.nix ];
-
+  boot.kernelParams = [ "snd_hda_intel.model=apple-headset-multi" ];
   # 1. Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

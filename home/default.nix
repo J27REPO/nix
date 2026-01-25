@@ -15,6 +15,10 @@
 
   home.packages = with pkgs; [
     # Navegadores y Apps
+    discord
+    unrar
+    winetricks
+    wineWowPackages.stable
     zotero
     antigravity
     morgen

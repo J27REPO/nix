@@ -23,7 +23,7 @@
   ];
   virtualisation.docker.enable = true;
   # Añade tu usuario al grupo docker para no usar sudo siempre
-  users.users.j27.extraGroups = [ "docker" ];
+  users.users.j27.extraGroups = [ "docker" "wheel" "networkmanager" "dialout" ];
   # 2. Paquetes del Sistema Comunes
   environment.systemPackages = with pkgs; [
     git vim wget curl kitty fastfetch
@@ -78,7 +78,15 @@
   # Servicios de bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
-  
+  # Habilitar sonido con Pipewire
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    jack.enable = true;
+  };
   services.gvfs.enable = true;    # Necesario para Thunar y montajes
     services.udisks2.enable = true; # Gestiona los discos duros y USBs
   # Bloqueo de pantalla 
