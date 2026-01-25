@@ -15,11 +15,47 @@
   '';
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
+  
     libusb1
     libimobiledevice
     usbmuxd
     glibc
     readline
+    
+   # Librerías para AppImages y Apps Gráficas (Soluciona Helium)
+   alsa-lib
+   libxkbcommon
+   libGL
+   wayland
+   vulkan-loader
+        libxcb
+        dbus        # <--- Esto soluciona tu error actual
+        glib
+        nss
+        nspr
+        atk
+        at-spi2-atk
+        cups
+        libdrm
+        mesa        # Proporciona drivers y suele incluir gbm
+        libgbm      # Se añade directamente, no como xorg.libgbm
+        gtk3
+        pango
+        cairo
+        expat
+        
+xorg.libX11
+    xorg.libXcursor
+    xorg.libXrandr
+    xorg.libXi
+    xorg.libXinerama
+    xorg.libXcomposite
+    xorg.libXdamage
+    xorg.libXext
+    xorg.libXfixes
+    xorg.libXrender
+    xorg.libXtst
+    xorg.libxcb
   ];
   virtualisation.docker.enable = true;
   # Añade tu usuario al grupo docker para no usar sudo siempre
@@ -27,7 +63,7 @@
   # 2. Paquetes del Sistema Comunes
   environment.systemPackages = with pkgs; [
     git vim wget curl kitty fastfetch
-    
+    appimage-run
     # EL SCRIPT MAGICO 'RELOAD'
     (writeShellScriptBin "reload" ''
       echo "🔄 Reconstruyendo NixOS para: $(hostname)..."

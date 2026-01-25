@@ -70,7 +70,7 @@
   # --- CONFIGURACIÓN DE KITTY (Con efecto de cursor) ---
   programs.kitty = {
     enable = true;
-    theme = "Tokyo Night";
+   # themeFile = "Tokyo_Night_Storm";
     settings = {
       font_family = "JetBrainsMono Nerd Font";
       font_size = 12;
@@ -133,7 +133,7 @@
     syntaxHighlighting.enable = true;
     
     # Corregido: initContent -> initExtra (estándar de home-manager)
-    initExtra = ''
+    initContent = ''
       fastfetch
       stty intr ^Z
       
