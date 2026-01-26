@@ -9,7 +9,16 @@
   programs.zsh.enable = true;
   services.usbmuxd.enable = true;
   services.flatpak.enable = true;
-  xdg.portal.enable = true;
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ 
+      pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-gtk 
+    ];
+    config.common.default = [ "hyprland" "gtk" ]; 
+  };
+  services.dbus.enable = true;
+  services.dbus.packages = [ pkgs.gsettings-desktop-schemas pkgs.gtk3 ];
   services.udev.extraRules = ''
     SUBSYSTEM=="usb", ATTR{idVendor}=="05ac", MODE="0666"
   '';
@@ -64,6 +73,13 @@ xorg.libX11
   environment.systemPackages = with pkgs; [
     git vim wget curl kitty fastfetch
     appimage-run
+    gsettings-desktop-schemas
+      gtk3
+      xdg-desktop-portal-gtk  # Asegúrate de que esté aquí también
+          glib                    # Para el comando gsettings
+          dconf
+          hicolor-icon-theme
+            adwaita-icon-theme
     # EL SCRIPT MAGICO 'RELOAD'
     (writeShellScriptBin "reload" ''
       echo "🔄 Reconstruyendo NixOS para: $(hostname)..."
@@ -143,4 +159,5 @@ xorg.libX11
       dates = "weekly";
       options = "--delete-older-than 7d";
     };
+
 }

@@ -41,7 +41,7 @@
         laptop = mkHost "laptop" "es" "" ",preferred,auto,1";
 
         # Mac Mini: Inglés (US), Monitor DP-1 a 120Hz
-        macmini = mkHost "macmini" "us" "altwin:swap_lalt_lwin,compose:caps" "DP-1,1920x1080@120,auto,1";
+        macmini = mkHost "macmini" "us" "compose:caps" "DP-1,1920x1080@120,auto,1";
       };
     };
 }

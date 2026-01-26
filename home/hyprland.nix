@@ -112,13 +112,14 @@
         ", Print, exec, grim -g \"$(slurp)\" - | wl-copy"
         "$mainMod, T, exec, $terminal"
         "$mainMod, E, exec, $fileManager"
+        "$mainMod SHIFT, A, exec, ~/.config/hypr/scripts/anime-launcher.sh"
         
         # Lanzar flotantes usando el truco de la clase
         "$mainMod ALT, T, exec, kitty --class floating_kitty"
         "$mainMod ALT, E, exec, thunar --class floating_thunar"
         
-        "$mainMod, W, exec, firefox"
-        "$mainMod, C, exec, code"
+        "$mainMod, W, exec, appimage-run /home/j27/Documents/hellium.AppImage"
+        "$mainMod, C, exec, antigravity"
         "$mainMod, D, exec, $menu"
         
         # Sistema

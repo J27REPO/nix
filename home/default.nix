@@ -60,6 +60,8 @@
     # SONIDO Y FEEDBACK
       sound-theme-freedesktop   # Los sonidos estándar (pop, click, etc.)
       libcanberra-gtk3          # Contiene el comando 'canberra-gtk-play'
+    # Anime Streaming
+    ani-cli
     # Fuentes
     nerd-fonts.jetbrains-mono
   ];
@@ -67,10 +69,9 @@
   # 2. Copiar tu imagen a una ruta conocida en el sistema (~/.config/hypr/wallpaper.png)
     xdg.configFile."hypr/wallpaper.png".source = if hostname == "laptop" then ./laptop_wallpaper.jpg else ./wallpaper.png;
   
-  # --- CONFIGURACIÓN DE KITTY (Con efecto de cursor) ---
+  # --- CONFIGURACIÓN DE KITTY (Tema Neon Moderno) ---
   programs.kitty = {
     enable = true;
-   # themeFile = "Tokyo_Night_Storm";
     settings = {
       font_family = "JetBrainsMono Nerd Font";
       font_size = 12;
@@ -93,6 +94,37 @@
       tab_powerline_style = "slanted";
       active_tab_font_style = "bold";
       inactive_tab_font_style = "normal";
+
+      # TEMA NEON MODERNO
+      foreground = "#ffffff";
+      background = "#0a0a0a";
+      cursor = "#ff00ff";
+      
+      # Colores Neon
+      color0 = "#000000";
+      color1 = "#ff0066";
+      color2 = "#00ff88";
+      color3 = "#ffaa00";
+      color4 = "#00ccff";
+      color5 = "#ff00ff";
+      color6 = "#00ffcc";
+      color7 = "#ffffff";
+      
+      # Colores brillantes
+      color8 = "#666666";
+      color9 = "#ff3399";
+      color10 = "#33ffaa";
+      color11 = "#ffcc33";
+      color12 = "#33ddff";
+      color13 = "#ff33ff";
+      color14 = "#33ffdd";
+      color15 = "#ffffff";
+      
+      # Selección y búsqueda
+      selection_foreground = "#000000";
+      selection_background = "#00ff88";
+      search_color_matches = "#ff0066";
+      search_color_background = "#ffffff";
     };
     keybindings = {
           "ctrl+c" = "copy_to_clipboard";
@@ -126,6 +158,7 @@
     };
   };
 
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -134,6 +167,7 @@
     
     # Corregido: initContent -> initExtra (estándar de home-manager)
     initContent = ''
+      export PATH="$HOME/.opencode/bin:$PATH"
       fastfetch
       stty intr ^Z
       
@@ -145,6 +179,7 @@
     '';
 
     shellAliases = {
+      opencode = "opencode";
       ll = "ls -l";
       update = "sudo nixos-rebuild switch --flake ~/nixos-config#laptop"; # Ajusta el hostname según toque
       
@@ -207,7 +242,7 @@
     }
   '';
 
-  xdg.configFile."rofi/config.rasi".source = ./rofi/theme.rasi;
+  xdg.configFile."rofi/theme.rasi".source = ./rofi/theme.rasi;
   
   xdg.configFile."hypr/scripts/RainbowBorders.sh" = {
     source = ./scripts/RainbowBorders.sh;
@@ -216,6 +251,11 @@
 
   xdg.configFile."hypr/scripts/RofiBeats.sh" = {
     source = ./scripts/RofiBeats.sh;
+    executable = true;
+  };
+
+  xdg.configFile."hypr/scripts/anime-launcher.sh" = {
+    source = ./scripts/anime-launcher.sh;
     executable = true;
   };
 
