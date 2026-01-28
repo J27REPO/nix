@@ -15,6 +15,7 @@
 
   home.packages = with pkgs; [
     # Navegadores y Apps
+    wol
     moonlight-qt
     discord
     unrar
@@ -185,7 +186,8 @@
     '';
 
     shellAliases = {
-      dormir = "systemctl suspend"
+      dormir = "systemctl suspend";
+      dormir-mac = "ssh j27@macmini 'sudo systemctl suspend'";
       despertar = "wol 10:dd:b1:c9:32:53";
       mac = "ssh j27@macmini";
       opencode = "opencode";
