@@ -185,6 +185,9 @@
     '';
 
     shellAliases = {
+      dormir = "systemctl suspend"
+      despertar = "wol 10:dd:b1:c9:32:53";
+      mac = "ssh j27@macmini";
       opencode = "opencode";
       ll = "ls -l";
       update = "sudo nixos-rebuild switch --flake ~/nixos-config#laptop"; # Ajusta el hostname según toque
