@@ -152,6 +152,28 @@ xorg.libX11
   # No passwd con sudo 
   security.sudo.wheelNeedsPassword = false;
 
+  # Servicios de gestión de energía para pantalla
+  services.logind = {
+    # Configuración para manejar la energía y el apagado de pantalla
+    lidSwitch = "suspend";
+    lidSwitchExternalPower = "ignore";
+    powerKey = "hibernate";
+    
+    # Configuración moderna usando settings
+    settings = {
+      Login = {
+        HandlePowerKey = "hibernate";
+        HandleSuspendKey = "suspend";
+        HandleHibernateKey = "hibernate";
+        IdleActionSec = 900;
+        IdleAction = "lock";
+      };
+    };
+  };
+
+  # Habilitar screen saver y power management
+  programs.light.enable = true;
+
   boot.loader.systemd-boot.configurationLimit = 5;
   boot.loader.timeout = 0;
   nix.gc = {

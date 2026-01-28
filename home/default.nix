@@ -15,6 +15,7 @@
 
   home.packages = with pkgs; [
     # Navegadores y Apps
+    moonlight-qt
     discord
     unrar
     winetricks
@@ -37,6 +38,7 @@
     thunar  
     libreoffice
     vicinae   
+    obsidian
     swww
     psmisc
     feh
@@ -44,8 +46,12 @@
     swayosd
     hyprshade
     gammastep
+    hypridle
+    pywal
     # Herramientas de Sistema
     jdk21
+    htop
+    python3
     rofi
     waybar
     pavucontrol
@@ -95,36 +101,36 @@
       active_tab_font_style = "bold";
       inactive_tab_font_style = "normal";
 
-      # TEMA NEON MODERNO
-      foreground = "#ffffff";
-      background = "#0a0a0a";
-      cursor = "#ff00ff";
+      # TEMA CYBERPUNK SUAVE
+      foreground = "#d0d0d0";
+      background = "#151515";
+      cursor = "#cc66cc";
       
-      # Colores Neon
-      color0 = "#000000";
-      color1 = "#ff0066";
-      color2 = "#00ff88";
-      color3 = "#ffaa00";
-      color4 = "#00ccff";
-      color5 = "#ff00ff";
-      color6 = "#00ffcc";
-      color7 = "#ffffff";
+      # Paleta Cyberpunk suave
+      color0 = "#151515";   # Negro más oscuro
+      color1 = "#cc5555";   # Rojo suave
+      color2 = "#77cc88";   # Verde suave
+      color3 = "#cc9944";   # Naranja suave
+      color4 = "#5599cc";   # Azul suave
+      color5 = "#aa66cc";   # Púrpura suave
+      color6 = "#55cccc";   # Cian suave
+      color7 = "#d0d0d0";   # Blanco suave
       
-      # Colores brillantes
-      color8 = "#666666";
-      color9 = "#ff3399";
-      color10 = "#33ffaa";
-      color11 = "#ffcc33";
-      color12 = "#33ddff";
-      color13 = "#ff33ff";
-      color14 = "#33ffdd";
-      color15 = "#ffffff";
+      # Colores brillantes (menos intensos)
+      color8 = "#555555";   # Gris más oscuro
+      color9 = "#dd7799";   # Rosa suave
+      color10 = "#88dd99";  # Verde suave
+      color11 = "#ddaa55";  # Amarillo suave
+      color12 = "#77aadd";  # Azul suave
+      color13 = "#bb88dd";  # Púrpura suave
+      color14 = "#88dddd";  # Cian suave
+      color15 = "#e0e0e0";  # Blanco suave
       
-      # Selección y búsqueda
-      selection_foreground = "#000000";
-      selection_background = "#00ff88";
-      search_color_matches = "#ff0066";
-      search_color_background = "#ffffff";
+      # Selección y búsqueda (tonos suaves)
+      selection_foreground = "#151515";
+      selection_background = "#5599cc";
+      search_color_matches = "#cc5555";
+      search_color_background = "#d0d0d0";
     };
     keybindings = {
           "ctrl+c" = "copy_to_clipboard";
@@ -193,6 +199,9 @@
       vi = "micro";   # Por si la costumbre te hace escribir vi
       vim = "micro";
       nano = "micro";
+      
+      # Alias para apagar pantalla
+      apagar = "hyprctl dispatch dpms off";
     };
 
     history = {
@@ -233,7 +242,6 @@
             { "type": "terminal", "key": " Terminal", "keyColor": "blue" },
             "break",
             { "type": "cpu", "key": "󰻠 CPU", "keyColor": "green" },
-            { "type": "gpu", "key": "󰻑 GPU", "keyColor": "green" },
             { "type": "memory", "key": "󰾆 Memory", "keyColor": "green" },
             { "type": "disk", "key": "󰋊 Disk", "keyColor": "green" },
             "break",
@@ -259,7 +267,16 @@
     executable = true;
   };
 
-  xdg.configFile."rofi/online_music.list".source = ./scripts/online_music.list;
+   xdg.configFile."rofi/online_music.list".source = ./scripts/online_music.list;
+   
+   xdg.configFile."hypr/hypridle.conf" = {
+     source = ./scripts/hypridle.conf;
+   };
+   
+   xdg.configFile."hypr/scripts/wallpaper-theme.sh" = {
+     source = ./scripts/wallpaper-theme.sh;
+     executable = true;
+   };
 
   programs.git = {
     enable = true;

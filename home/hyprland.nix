@@ -14,12 +14,7 @@
         monitorConfig
       ];
 
-      # --- WINDOW RULES ---
-      windowrulev2 = [
-        "float, class:^(floating_.*)$"  # Flotar cualquier cosa que empiece por floating_
-        "center, class:^(floating_.*)$"
-        "size 60% 60%, class:^(floating_.*)$"
-      ]; 
+  
 
       exec-once = [
               "vicinae server"
@@ -27,6 +22,8 @@
               "swww img ~/.config/hypr/wallpaper.png"
               "udiskie --tray &"
               "swayosd-server"
+              "hypridle -c ~/.config/hypr/hypridle.conf"
+              "hypridle"
             ];
       bindr = [
               "SUPER, SUPER_L, exec, vicinae toggle"
@@ -62,6 +59,24 @@
         layout = "dwindle";
       };
 
+      # --- CONFIGURACIÓN DE ENERGÍA Y PANTALLA ---
+      master = {
+        new_status = "master";
+      };
+      
+      # Configuración para apagar pantalla después de 15 minutos de inactividad
+      # DPMS: Display Power Management Signaling
+      bindl = [
+        # Desactivar pantalla con teclas de apagado si existen
+        ", XF86PowerOff, exec, hyprctl dispatch dpms off"
+      ];
+      
+      # Configurar el gestor de energía para pantalla
+      # Usamos Wayland compositor settings para el timeout de pantalla
+      env = [
+        "HYPRLAND_EFFECTS_VFR,1"
+      ];
+
       decoration = {
         rounding = 10;
         blur = {
@@ -77,13 +92,18 @@
 
       animations = {
         enabled = "yes";
-        bezier = "fastBezier, 0.05, 0.9, 0.1, 1.05";
+        bezier = [
+          "smoothBezier, 0.05, 0.9, 0.1, 1.05"
+          "slideBezier, 0.25, 0.1, 0.25, 1"
+          "fadeBezier, 0.05, 0.9, 0.1, 1.05"
+        ];
         animation = [
-          "windows, 1, 2, fastBezier"
-          "windowsOut, 1, 2, default, popin 80%"
-          "border, 1, 3, default"
-          "fade, 1, 2, default"
-          "workspaces, 1, 2, default"
+          "windows, 1, 2, smoothBezier, slide"
+          "windowsOut, 1, 2, smoothBezier, slide popin 80%"
+          "border, 1, 3, smoothBezier"
+          "fade, 1, 2, fadeBezier"
+          "workspaces, 1, 3, slideBezier, slide"
+          "specialWorkspace, 1, 2, smoothBezier, fade"
         ];
       };
 
@@ -110,17 +130,14 @@
         # Apps
         "$mainMod SHIFT, P, exec, grim -g \"$(slurp)\" - | wl-copy"
         ", Print, exec, grim -g \"$(slurp)\" - | wl-copy"
-        "$mainMod, T, exec, $terminal"
-        "$mainMod, E, exec, $fileManager"
-        "$mainMod SHIFT, A, exec, ~/.config/hypr/scripts/anime-launcher.sh"
-        
-        # Lanzar flotantes usando el truco de la clase
-        "$mainMod ALT, T, exec, kitty --class floating_kitty"
-        "$mainMod ALT, E, exec, thunar --class floating_thunar"
+        "$mainMod, T, exec, kitty"
+        "$mainMod, E, exec, thunar"
+        "$mainMod SHIFT, A, exec, ani-cli --rofi"
         
         "$mainMod, W, exec, appimage-run /home/j27/Documents/hellium.AppImage"
-        "$mainMod, C, exec, antigravity"
-        "$mainMod, D, exec, $menu"
+         "$mainMod, C, exec, antigravity"
+         "$mainMod SHIFT, W, exec, ~/.config/hypr/scripts/wallpaper-theme.sh"
+         "$mainMod, D, exec, $menu"
         
         # Sistema
         "$mainMod, Q, killactive"

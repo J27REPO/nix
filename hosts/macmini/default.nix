@@ -2,29 +2,59 @@
 
 {
   imports = [ /etc/nixos/hardware-configuration.nix ];
+  
   boot.kernelParams = [ "snd_hda_intel.model=apple-headset-multi" ];
+
   # 1. Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
+  networking.interfaces.enp1s0.wakeOnLan = {
+      enable = true;
+      policy = [ "magic" ];
+    };
+  
+    # 2. Instalar ethtool para comprobar que todo está bien
+    environment.systemPackages = [ pkgs.ethtool ];
   # 2. Drivers Gráficos Intel (Específico Mac Mini)
-  # Usamos 'modesetting' que suele ir mejor en Intel modernos/medios que el driver 'intel' antiguo
   services.xserver.videoDrivers = [ "intel" ]; 
   hardware.graphics.enable = true;
 
-  # 3. Habilitar Hyprland a nivel sistema
-  # (Necesario para que aparezca en el login, aunque la config visual esté en Home Manager)
-  
-  # 4. Definición de Usuario (Para que no tengas que crearlo manual)
+  # --- NUEVA CONFIGURACIÓN PARA ACCESO REMOTO ---
+
+  # 3. Habilitar SSH
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = true; # Permite entrar con tu contraseña
+      PermitRootLogin = "no";        # Seguridad: no permite entrar como root
+    };
+  };
+
+  # 4. Habilitar Tailscale
+  services.tailscale.enable = true;
+  networking.hostName = "macmini";
+  services.resolved.enable = true;
+  # 5. Configurar Firewall para Tailscale y SSH
+  networking.firewall = {
+    enable = true;
+    # "loose" es necesario para que Tailscale atraviese el firewall correctamente
+    checkReversePath = "loose"; 
+    allowedUDPPorts = [ 41641 ]; # Puerto oficial de Tailscale
+    allowedTCPPorts = [ 22 ];    # Puerto estándar de SSH
+  };
+  services.sunshine = {
+      enable = true;
+      autoStart = true;
+      capSysAdmin = true; # Necesario para crear dispositivos de entrada virtuales
+      openFirewall = true; # Abre los puertos 47984-48010
+    };
+
+  # ----------------------------------------------
+
+  # 6. Definición de Usuario
   users.users.${user} = {
     isNormalUser = true;
     shell = pkgs.zsh;
-    extraGroups = [ "networkmanager" "wheel" "video" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "docker" ]; # He añadido docker por si lo usas
   };
-  
-  # Nota sobre el Monitor (DP-1):
-  # Al usar una config compartida en Home Manager, Hyprland intentará detectar
-  # el monitor automáticamente ("auto"). Si ves que no te da la resolución correcta,
-  # avísame y añadiremos una condición específica para el Mac Mini.
-
 }
