@@ -4,14 +4,14 @@
   imports = [ /etc/nixos/hardware-configuration.nix ];
 
   # --- NETWORKING & HOSTNAME ---
-  networking.hostName = "laptop"; # Nombre para reconocerla en Tailscale/MagicDNS
+  networking.hostName = "laptop"; 
   networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.backend = "iwd"; # Motor de iwd para Impala
+  networking.wireless.iwd.enable = true;          # Activar servicio iwd
 
   # --- ACCESO REMOTO (SSH & VPN) ---
-  # Habilitar Tailscale
   services.tailscale.enable = true;
 
-  # Habilitar SSH
   services.openssh = {
     enable = true;
     settings = {
@@ -20,12 +20,11 @@
     };
   };
 
-  # Configuración de Firewall (Abrir puertos para SSH y optimizar Tailscale)
   networking.firewall = {
     enable = true;
-    checkReversePath = "loose"; # Necesario para que Tailscale funcione bien
-    allowedUDPPorts = [ 41641 ]; # Puerto oficial Tailscale
-    allowedTCPPorts = [ 22 ];    # Puerto estándar SSH
+    checkReversePath = "loose"; 
+    allowedUDPPorts = [ 41641 ]; 
+    allowedTCPPorts = [ 22 ];    
   };
 
   # --- BOOTLOADER ---
@@ -51,15 +50,13 @@
   users.users.${user} = {
     isNormalUser = true;
     shell = pkgs.zsh;
-    extraGroups = [ "networkmanager" "wheel" "video" "docker" ]; # Docker añadido por si acaso
+    extraGroups = [ "networkmanager" "wheel" "video" "docker" ]; 
   };
 
   # --- VARIABLES DE ENTORNO ---
   environment.sessionVariables = {
-    WLR_NO_HARDWARE_CURSORS = "1"; # Ayuda con cursores invisibles en AMD/Wayland
+    WLR_NO_HARDWARE_CURSORS = "1"; 
   };
   
-  # Nota sobre Sunshine/Moonlight:
-  # Como esta es la Laptop, actuará principalmente como CLIENTE (Moonlight).
   # El paquete 'moonlight-qt' debe ir en tu nix/home/default.nix.
 }

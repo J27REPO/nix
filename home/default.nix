@@ -15,6 +15,7 @@
 
   home.packages = with pkgs; [
     # Navegadores y Apps
+	impala
     wol
     moonlight-qt
     discord
