@@ -4,7 +4,12 @@
   imports = [ /etc/nixos/hardware-configuration.nix ];
   
   boot.kernelParams = [ "snd_hda_intel.model=apple-headset-multi" ];
+  boot.kernelModules = [ "uinput" ];
 
+  services.udev.extraRules = ''
+      KERNEL=="uinput", SUBSYSTEM=="misc", OPTIONS+="static_node=uinput", TAG+="uaccess", GROUP="input", MODE="0660"
+    '';
+    
   # 1. Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
