@@ -25,7 +25,7 @@ networking.interfaces.enx10ddb1c93253.wakeOnLan = {
   hardware.graphics.enable = true;
   environment.systemPackages = [ 
     pkgs.ethtool 
-    pkgs.vaapiIntel # Driver para que Sunshine codifique video por hardware
+    pkgs.intel-vaapi-driver # Driver para que Sunshine codifique video por hardware
   ];
 
   # --- ACCESO REMOTO ---
