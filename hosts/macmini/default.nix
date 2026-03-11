@@ -51,6 +51,48 @@ security.polkit.extraConfig = ''
   networking.hostName = "macmini";
   services.resolved.enable = true;
 
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      workstation = true;
+    };
+  };
+
+  services.ollama = {
+    enable = true;
+    host = "0.0.0.0";
+    port = 11434;
+    # Optimización para hardware antiguo (Intel 3rd Gen) usando CPU
+    package = pkgs.ollama; 
+  };
+  systemd.services.ollama.serviceConfig.Environment = [
+    "OLLAMA_NUM_THREADS=4"
+    "OLLAMA_KEEP_ALIVE=20m"
+  ];
+
+  # Descargar modelo Qwen automáticamente
+  systemd.services.ollama-model = {
+    description = "Pull Ollama qwen2.5-coder:7b model";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "ollama.service" ];
+    path = [ pkgs.ollama pkgs.curl ];
+    script = ''
+      # Esperar a que Ollama esté listo
+      until curl -s http://127.0.0.1:11434 > /dev/null; do
+        sleep 2
+      done
+      # Descargar el modelo
+      ollama pull qwen2.5-coder:7b
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+  };
+
   # 5. Sunshine (Streaming)
   services.sunshine = {
     enable = true;
@@ -63,7 +105,7 @@ security.polkit.extraConfig = ''
   networking.firewall = {
     enable = true;
     checkReversePath = "loose";
-    allowedTCPPorts = [ 22 47984 47989 47990 48010 ];
+    allowedTCPPorts = [ 22 47984 47989 47990 48010 11434 ];
     allowedUDPPorts = [ 41641 47998 47999 48000 48002 48010 ];
   };
 

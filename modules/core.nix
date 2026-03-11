@@ -74,6 +74,7 @@ xorg.libX11
   environment.systemPackages = with pkgs; [
     git vim wget curl kitty fastfetch
     appimage-run
+    aichat # Cliente de terminal para LLMs como Ollama (como alternativa a "clawd bot")
     gsettings-desktop-schemas
       gtk3
       xdg-desktop-portal-gtk  # Asegúrate de que esté aquí también
@@ -173,7 +174,7 @@ xorg.libX11
   };
 
   # Habilitar screen saver y power management
-  programs.light.enable = true;
+  hardware.acpilight.enable = true;
 
   boot.loader.systemd-boot.configurationLimit = 5;
   boot.loader.timeout = 0;

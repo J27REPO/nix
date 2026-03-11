@@ -12,6 +12,16 @@
   # --- ACCESO REMOTO (SSH & VPN) ---
   services.tailscale.enable = true;
 
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      workstation = true;
+    };
+  };
+
   services.openssh = {
     enable = true;
     settings = {
