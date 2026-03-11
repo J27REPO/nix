@@ -13,10 +13,14 @@
   home.sessionVariables = {
     EDITOR = "micro";
     VISUAL = "micro";
+    LETTA_API_URL = "http://macmini.local:8283"; # Servidor en Mac Mini
+    # GEMINI_API_KEY = "TU_API_KEY_AQUI"; # Descomenta y pon tu clave
   };
 
   home.packages = with pkgs; [
     # Navegadores y Apps
+    nodejs
+    python3Packages.pipx
     heimdall-gui
     android-tools
 	impala
@@ -179,8 +183,9 @@
     syntaxHighlighting.enable = true;
     
     # Corregido: initContent -> initExtra (estándar de home-manager)
-    initContent = ''
-      export PATH="$HOME/.opencode/bin:$PATH"
+    initExtra = ''
+      export PATH="$HOME/.opencode/bin:$HOME/.npm-global/bin:$PATH"
+      export NPM_CONFIG_PREFIX="$HOME/.npm-global"
       fastfetch
       stty intr ^Z
       
@@ -204,6 +209,8 @@
       ls = "eza --icons";
       cat = "bat";
       grep = "grep --color=auto";
+      letta-mini = "LETTA_API_URL=http://macmini.local:8283 letta";
+      letta-code = "LETTA_API_URL=http://macmini.local:8283 letta-code";
       
       # Alias para editar rápido con micro
       conf = "micro ~/nixos-config/flake.nix";

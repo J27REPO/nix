@@ -95,7 +95,19 @@ security.polkit.extraConfig = ''
     };
   };
 
-  # 5. Sunshine (Streaming)
+  # 5. Letta Server (Container)
+  virtualisation.oci-containers.backend = "docker";
+  virtualisation.oci-containers.containers.letta = {
+    image = "letta/letta:latest";
+    # Usamos network=host para conectar fácilmente con Ollama en localhost
+    extraOptions = [ "--network=host" ]; 
+    volumes = [ "/home/j27/.letta:/root/.letta" ];
+    environment = {
+      LETTA_OLLAMA_ENDPOINT = "http://localhost:11434";
+    };
+  };
+
+  # 6. Sunshine (Streaming)
   services.sunshine = {
     enable = true;
     autoStart = true;
@@ -107,7 +119,7 @@ security.polkit.extraConfig = ''
   networking.firewall = {
     enable = true;
     checkReversePath = "loose";
-    allowedTCPPorts = [ 22 47984 47989 47990 48010 11434 ];
+    allowedTCPPorts = [ 22 47984 47989 47990 48010 11434 8283 ];
     allowedUDPPorts = [ 41641 47998 47999 48000 48002 48010 ];
   };
 

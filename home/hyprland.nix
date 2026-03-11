@@ -18,9 +18,8 @@
 	 
 	   
 	    windowrulev2 = [
-	      "tile, class:^(game.exe)$, title:^(Pokémon Añil 4.0)$"
-	      "fullscreen, class:^(game.exe)$, title:^(Pokémon Añil 4.0)$"
-	      "forceinput, class:^(game.exe)$" # Ayuda a que los controles del móvil respondan mejor
+	      "tile, class:game.exe, title:Pokémon Añil 4.0"
+	      "fullscreen, class:game.exe, title:Pokémon Añil 4.0"
 	    ];
 	  
       exec-once = [
