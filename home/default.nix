@@ -25,7 +25,7 @@
     discord
     unrar
     winetricks
-    wineWowPackages.stable
+    wineWow64Packages.stable
     zotero
     antigravity
     morgen

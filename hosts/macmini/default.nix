@@ -80,12 +80,14 @@ security.polkit.extraConfig = ''
     after = [ "ollama.service" ];
     path = [ pkgs.ollama pkgs.curl ];
     script = ''
-      # Esperar a que Ollama esté listo
-      until curl -s http://127.0.0.1:11434 > /dev/null; do
-        sleep 2
+      # Esperar a que la API de Ollama responda
+      until curl -s http://127.0.0.1:11434/api/tags > /dev/null; do
+        sleep 5
       done
-      # Descargar el modelo
-      ollama pull qwen2.5-coder:7b
+      # Solo descargar si no está ya instalado
+      if ! ollama list | grep -q "qwen2.5-coder:7b"; then
+        ollama pull qwen2.5-coder:7b
+      fi
     '';
     serviceConfig = {
       Type = "oneshot";
