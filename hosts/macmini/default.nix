@@ -27,7 +27,14 @@ networking.interfaces.enx10ddb1c93253.wakeOnLan = {
     pkgs.ethtool 
     pkgs.intel-vaapi-driver # Driver para que Sunshine codifique video por hardware
   ];
-
+security.polkit.extraConfig = ''
+  polkit.addRule(function(action, subject) {
+    if (action.id == "org.freedesktop.login1.suspend" &&
+        subject.isInGroup("wheel")) {
+      return polkit.Result.YES;
+    }
+  });
+'';
   # --- ACCESO REMOTO ---
 
   # 3. SSH

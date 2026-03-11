@@ -15,6 +15,8 @@
 
   home.packages = with pkgs; [
     # Navegadores y Apps
+    heimdall-gui
+    android-tools
 	impala
     wol
     moonlight-qt
@@ -78,6 +80,7 @@
     xdg.configFile."hypr/wallpaper.png".source = if hostname == "laptop" then ./laptop_wallpaper.jpg else ./wallpaper.png;
   
   # --- CONFIGURACIÓN DE KITTY (Tema Neon Moderno) ---
+  
   programs.kitty = {
     enable = true;
     settings = {

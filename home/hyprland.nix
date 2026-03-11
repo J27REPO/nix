@@ -15,7 +15,14 @@
       ];
 
   
-
+	 
+	   
+	    windowrulev2 = [
+	      "tile, class:^(game.exe)$, title:^(Pokémon Añil 4.0)$"
+	      "fullscreen, class:^(game.exe)$, title:^(Pokémon Añil 4.0)$"
+	      "forceinput, class:^(game.exe)$" # Ayuda a que los controles del móvil respondan mejor
+	    ];
+	  
       exec-once = [
               "vicinae server"
               "swww-daemon"
@@ -124,6 +131,7 @@
 
       # --- TUS KEYBINDINGS (Estilo JaKooLit) ---
       bind = [
+      		"SUPER, F11, fullscreen, 1"
         # Mute (No necesita repetición)
             ", XF86AudioMute, exec, swayosd-client --output-volume mute-toggle"
             ", XF86AudioMicMute, exec, swayosd-client --input-volume mute-toggle"

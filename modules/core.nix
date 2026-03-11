@@ -9,6 +9,7 @@
   programs.zsh.enable = true;
   services.usbmuxd.enable = true;
   services.flatpak.enable = true;
+  services.blueman.enable = true;
   xdg.portal = {
     enable = true;
     extraPortals = [ 
@@ -68,7 +69,7 @@ xorg.libX11
   ];
   virtualisation.docker.enable = true;
   # Añade tu usuario al grupo docker para no usar sudo siempre
-  users.users.j27.extraGroups = [ "docker" "wheel" "networkmanager" "dialout" ];
+  users.users.j27.extraGroups = [ "docker" "wheel" "networkmanager" "dialout" "adbusers" ];
   # 2. Paquetes del Sistema Comunes
   environment.systemPackages = with pkgs; [
     git vim wget curl kitty fastfetch
