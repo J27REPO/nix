@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit(home/**)",
+      "Bash(hyprctl version 2>/dev/null | head -3 || echo \"no hyprctl en PATH\")"
+    ]
+  }
+}

@@ -17,9 +17,9 @@
   
 	 
 	   
-	    windowrulev2 = [
-	      "tile, class:game.exe, title:Pokémon Añil 4.0"
-	      "fullscreen, class:game.exe, title:Pokémon Añil 4.0"
+	    windowrule = [
+	      "tile on, match:class game.exe, match:title Pokémon Añil 4.0"
+	      "fullscreen on, match:class game.exe, match:title Pokémon Añil 4.0"
 	    ];
 	  
       exec-once = [
