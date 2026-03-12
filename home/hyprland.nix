@@ -20,6 +20,10 @@
 	    windowrule = [
 	      "tile on, match:class game.exe, match:title Pokémon Añil 4.0"
 	      "fullscreen on, match:class game.exe, match:title Pokémon Añil 4.0"
+	      "float on, match:class kitty"
+	      "size 850 530, match:class kitty"
+	      "float on, match:class thunar"
+	      "size 850 530, match:class thunar"
 	    ];
 	  
       exec-once = [
