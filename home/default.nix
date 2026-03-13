@@ -19,6 +19,7 @@
 
   home.packages = with pkgs; [
     # Navegadores y Apps
+    acpi
     nodejs
     python3Packages.pipx
     heimdall-gui

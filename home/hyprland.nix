@@ -145,7 +145,7 @@
         "$mainMod, E, exec, thunar"
         "$mainMod SHIFT, A, exec, ani-cli --rofi"
         
-        "$mainMod, W, exec, appimage-run /home/j27/Documents/hellium.AppImage"
+        "$mainMod, W, exec, firefox"
          "$mainMod, C, exec, antigravity"
          "$mainMod SHIFT, W, exec, ~/.config/hypr/scripts/wallpaper-theme.sh"
          "$mainMod, D, exec, $menu"
