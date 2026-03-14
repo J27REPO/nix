@@ -4,7 +4,9 @@
       "Edit(home/**)",
       "Bash(hyprctl version 2>/dev/null | head -3 || echo \"no hyprctl en PATH\")",
       "Bash(hyprctl clients 2>/dev/null | grep -A5 -i \"xfce4-terminal\\|xfce4terminal\\|xfterm\" | head -20)",
-      "Bash(hyprctl clients | grep -i \"class\\|title\" | grep -i \"thunar\\|kitty\")"
+      "Bash(hyprctl clients | grep -i \"class\\|title\" | grep -i \"thunar\\|kitty\")",
+      "Bash(cat:*)",
+      "Edit(**)"
     ]
   }
 }

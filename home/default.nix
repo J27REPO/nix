@@ -19,6 +19,9 @@
 
   home.packages = with pkgs; [
     # Navegadores y Apps
+    inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
+    vscode
+    typst
     acpi
     nodejs
     python3Packages.pipx
