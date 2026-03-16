@@ -84,6 +84,10 @@
     ani-cli
     # Fuentes
     nerd-fonts.jetbrains-mono
+    # Comma: ejecuta comandos sin instalarlos (`,' cowsay hola`)
+    comma
+    # notify-send (para notificaciones mako desde terminal)
+    libnotify
   ];
 
   # 2. Copiar tu imagen a una ruta conocida en el sistema (~/.config/hypr/wallpaper.png)
@@ -193,11 +197,16 @@
       fastfetch
       stty intr ^Z
       
-      # Forzar cursor de bloque en cada nuevo prompt
-      # \e[2 q = Block, \e[6 q = Beam
-      precmd() {
-        echo -ne '\e[2 q'
-      }
+      # Forzar cursor de bloque siempre — en prompt Y mientras se escribe
+      # \e[2 q = Block fijo, \e[1 q = Block parpadeante, \e[6 q = Beam (fino)
+      # precmd: se ejecuta antes de cada prompt (entre comandos)
+      precmd() { echo -ne '\e[2 q'; }
+      # zle-line-init: se ejecuta al entrar en el editor de línea (al empezar a escribir)
+      zle-line-init() { echo -ne '\e[2 q'; }
+      # zle-keymap-select: se ejecuta al cambiar modo (normal/insert en vi-mode, etc.)
+      zle-keymap-select() { echo -ne '\e[2 q'; }
+      zle -N zle-line-init
+      zle -N zle-keymap-select
     '';
 
     shellAliases = {
@@ -236,6 +245,22 @@
   programs.bat = { enable = true; config.theme = "TwoDark"; };
   programs.zoxide = { enable = true; enableZshIntegration = true; };
   programs.fzf = { enable = true; enableZshIntegration = true; };
+
+  # --- NIX-INDEX + COMMA ---
+  # nix-index: al escribir un comando que no tienes, te dice en qué paquete está
+  # comma: escribe `,' antes de cualquier comando para ejecutarlo sin instalarlo
+  # Primera vez ejecuta `nix-index` en la terminal para construir la base de datos (~5min)
+  programs.nix-index = {
+    enable = true;
+    enableZshIntegration = true; # Reemplaza el command-not-found handler
+  };
+
+  # --- PAY-RESPECTS (antes thefuck) ---
+  # Escribe `f` después de un comando mal escrito y lo corrige solo
+  programs.pay-respects = {
+    enable = true;
+    enableZshIntegration = true;
+  };
 
   # --- GESTIÓN DE ARCHIVOS ---
   xdg.configFile."fastfetch/mew.png".source = ./mew.png;
@@ -319,6 +344,104 @@
        cp -r ${./icons/Notwaita-Black}/* $out/share/icons/Notwaita-Black/
      '';
    };
+
+  # --- MAKO (Notificaciones Wayland) ---
+  services.mako = {
+    enable = true;
+    settings = {
+      # Posición y tamaño
+      anchor = "top-right";
+      margin = "10";
+      padding = "12,16";
+      width = 320;
+      height = 120;
+      border-radius = 10;
+      border-size = 2;
+
+      # Colores cyberpunk (misma paleta que kitty/hyprland)
+      background-color = "#151515CC";
+      text-color = "#d0d0d0";
+      border-color = "#bd00ffee";
+
+      # Tipografía
+      font = "JetBrainsMono Nerd Font 11";
+
+      # Comportamiento
+      default-timeout = 5000;      # 5 segundos
+      ignore-timeout = 0;
+      max-visible = 5;
+
+      # Urgencia baja — borde más tenue
+      "urgency=low" = {
+        border-color = "#595959aa";
+        default-timeout = 3000;
+      };
+      # Urgencia crítica — borde cian + no se va solo
+      "urgency=critical" = {
+        border-color = "#00f7ffee";
+        default-timeout = 0;
+      };
+    };
+  };
+
+  # --- HYPRLOCK (Pantalla de bloqueo) ---
+  programs.hyprlock = {
+    enable = true;
+    settings = {
+      general = {
+        disable_loading_bar = false;
+        grace = 0;
+        hide_cursor = true;
+      };
+
+      background = [{
+        path = "~/.config/hypr/wallpaper.png";
+        blur_passes = 3;
+        blur_size = 7;
+        brightness = 0.55;
+      }];
+
+      # Reloj grande en el centro
+      label = [
+        {
+          text = ''cmd[update:1000] echo "$(date +"%H:%M")"'';
+          font_size = 80;
+          font_family = "JetBrainsMono Nerd Font Bold";
+          position = "0, 120";
+          halign = "center";
+          valign = "center";
+          color = "rgba(d0d0d0ee)";
+        }
+        {
+          text = ''cmd[update:60000] echo "$(date +"%A, %d de %B")"'';
+          font_size = 18;
+          font_family = "JetBrainsMono Nerd Font";
+          position = "0, 40";
+          halign = "center";
+          valign = "center";
+          color = "rgba(aa88ddcc)";
+        }
+      ];
+
+      # Campo de contraseña
+      input-field = [{
+        size = "320, 52";
+        position = "0, -60";
+        halign = "center";
+        valign = "center";
+        outline_thickness = 2;
+        outer_color = "rgba(bd00ffee)";   # Borde morado (igual que Hyprland)
+        inner_color = "rgba(15151599)";
+        font_color = "rgb(d0d0d0)";
+        fade_on_empty = true;
+        placeholder_text = "<i>Contraseña...</i>";
+        check_color = "rgba(00f7ffee)";   # Cian al verificar
+        fail_color = "rgba(cc5555ee)";    # Rojo si falla
+        fail_text = "<i>Incorrecto</i>";
+        capslock_color = "rgba(cc9944ee)";
+      }];
+    };
+  };
 
    # --- CONTROL DE LUZ NOCTURNA (Gammastep) ---
    services.gammastep = {

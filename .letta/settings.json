@@ -6,7 +6,10 @@
       "Bash(hyprctl clients 2>/dev/null | grep -A5 -i \"xfce4-terminal\\|xfce4terminal\\|xfterm\" | head -20)",
       "Bash(hyprctl clients | grep -i \"class\\|title\" | grep -i \"thunar\\|kitty\")",
       "Bash(cat:*)",
-      "Edit(**)"
+      "Edit(**)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(# Comprobar estado actual del sistema en vivo\ncat /sys/power/mem_sleep 2>/dev/null && echo \"---mem_sleep---\"\ncat /proc/acpi/wakeup 2>/dev/null | head -20 && echo \"---wakeup---\"\n# Ver qué WakeOnLan tiene la tarjeta de red\nfor iface in $(ls /sys/class/net/); do echo \"$iface:\"; ethtool \"$iface\" 2>/dev/null | grep -i wake; done)"
     ]
   }
 }

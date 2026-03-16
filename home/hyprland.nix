@@ -27,6 +27,7 @@
 	    ];
 	  
       exec-once = [
+              "hyprlock"
               "vicinae server"
               "swww-daemon"
               "swww img ~/.config/hypr/wallpaper.png"
@@ -34,6 +35,7 @@
               "swayosd-server"
               "hypridle -c ~/.config/hypr/hypridle.conf"
               "hypridle"
+              "mako"
             ];
       bindr = [
               "SUPER, SUPER_L, exec, vicinae toggle"
@@ -146,11 +148,12 @@
         "$mainMod SHIFT, A, exec, ani-cli --rofi"
         
         "$mainMod, W, exec, zen"
-         "$mainMod, C, exec, antigravity"
+         "$mainMod, C, exec, code"
          "$mainMod SHIFT, W, exec, ~/.config/hypr/scripts/wallpaper-theme.sh"
          "$mainMod, D, exec, $menu"
         
         # Sistema
+        "$mainMod, L, exec, hyprlock"
         "$mainMod, Q, killactive"
        # "$mainMod, M, exit"
         "$mainMod, SPACE, togglefloating"
