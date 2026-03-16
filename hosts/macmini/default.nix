@@ -20,6 +20,9 @@ networking.interfaces.enx10ddb1c93253.wakeOnLan = {
     enable = true;
     policy = [ "magic" ];
   };
+  # El adaptador USB-Ethernet solo sirve para WoL, no siempre está conectado.
+  # Sin esto, systemd espera que aparezca en cada arranque hasta el timeout (~90s).
+  systemd.network.wait-online.ignoredInterfaces = [ "enx10ddb1c93253" ];
   # 2. Drivers Gráficos e Intel Packages
   services.xserver.videoDrivers = [ "intel" ]; 
   hardware.graphics.enable = true;
