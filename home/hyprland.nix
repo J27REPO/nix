@@ -1,4 +1,4 @@
-{ pkgs, kbLayout, kbOptions, monitorConfig, hostname, ... }: 
+{ pkgs, kbLayout, kbVariant, kbOptions, monitorConfig, hostname, ... }: 
 
 {
   wayland.windowManager.hyprland = {
@@ -33,8 +33,7 @@
               "swww img ~/.config/hypr/wallpaper.png"
               "udiskie --tray &"
               "swayosd-server"
-              "hypridle -c ~/.config/hypr/hypridle.conf"
-              "hypridle"
+              "hypridle" # config en ~/.config/hypr/hypridle.conf (XDG default)
               "mako"
             ];
       bindr = [
@@ -55,7 +54,8 @@
       # --- INPUT (TECLADO DINÁMICO) ---
       input = {
         kb_layout = kbLayout;    # Se rellena solo (es o us)
-        kb_options = kbOptions;  # Se rellena solo (swap alt/win...)
+        kb_variant = kbVariant;  # macmini="intl" (US International dead keys), laptop=""
+        kb_options = kbOptions;  # macmini="" (sin compose), laptop=""
         follow_mouse = 1;
         touchpad.natural_scroll = "no";
         sensitivity = 0;
@@ -86,7 +86,7 @@
       # Configurar el gestor de energía para pantalla
       # Usamos Wayland compositor settings para el timeout de pantalla
       env = [
-        "HYPRLAND_EFFECTS_VFR,1"
+        # "HYPRLAND_EFFECTS_VFR,1" # Variable inexistente en Hyprland estándar — eliminada
       ];
 
       decoration = {

@@ -1,12 +1,34 @@
-{ pkgs,user, ... }:
+{ pkgs, lib, user, ... }:
 
 {
   # 1. Habilitar Flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    auto-optimise-store = true; # Deduplica ficheros idénticos en el store con hardlinks
+    max-jobs = "auto";          # Builds/descargas en paralelo (usa todos los cores)
+    trusted-users = [ "root" user ]; # Permite a j27 usar substituters directamente
+    substituters = [
+      "https://cache.nixos.org"
+      "https://hyprland.cachix.org"
+      "https://nix-community.cachix.org"
+    ];
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/SkPMuW6dN7vvU="
+    ];
+  };
+  # Builds de nix en prioridad idle — no compiten con el uso normal del PC
+  nix.daemonCPUSchedPolicy = "idle";
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "24.05";
   programs.ssh.startAgent = true;
   programs.zsh.enable = true;
+  # programs.adb eliminado: systemd 258 gestiona udev/uaccess automáticamente
+  # android-tools ya está en home packages — funciona sin módulo adicional
+
+  # Firmware redistribuible: WiFi (BCM4331), Bluetooth, iGPU, etc.
+  hardware.enableRedistributableFirmware = true;
   services.usbmuxd.enable = true;
   services.flatpak.enable = true;
   services.blueman.enable = true;
@@ -38,8 +60,7 @@
    libGL
    wayland
    vulkan-loader
-        libxcb
-        dbus        # <--- Esto soluciona tu error actual
+        dbus
         glib
         nss
         nspr
@@ -54,25 +75,26 @@
         cairo
         expat
         
-xorg.libX11
-    xorg.libXcursor
-    xorg.libXrandr
-    xorg.libXi
-    xorg.libXinerama
-    xorg.libXcomposite
-    xorg.libXdamage
-    xorg.libXext
-    xorg.libXfixes
-    xorg.libXrender
-    xorg.libXtst
-    xorg.libxcb
+        libx11
+        libxcursor
+        libxrandr
+        libxi
+        libxinerama
+        libxcomposite
+        libxdamage
+        libxext
+        libxfixes
+        libxrender
+        libxtst
+        libxcb
   ];
   virtualisation.docker.enable = true;
   # Añade tu usuario al grupo docker para no usar sudo siempre
-  users.users.j27.extraGroups = [ "docker" "wheel" "networkmanager" "dialout" "adbusers" ];
+  users.users.${user}.extraGroups = [ "docker" "wheel" "dialout" ]; # networkmanager/adbusers eliminados (systemd 258 gestiona acceso USB automáticamente)
   # 2. Paquetes del Sistema Comunes
   environment.systemPackages = with pkgs; [
     git vim wget curl kitty fastfetch
+    gnumake gcc binutils
     appimage-run
     aichat # Cliente de terminal para LLMs como Ollama (como alternativa a "clawd bot")
     gsettings-desktop-schemas
@@ -93,38 +115,8 @@ xorg.libX11
     '')
   ];
 
-  # 3. Tu Configuración de Fastfetch (Integrada desde tu archivo)
-  environment.etc."fastfetch/config.jsonc".text = ''
-    {
-        "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
-        "logo": {
-            "source": "~/.config/fastfetch/mew.png",
-            "type": "kitty-direct",
-            "height": 16,
-            "width": 30,
-            "padding": { "top": 2, "left": 1 }
-        },
-        "modules": [
-            "break",
-            { "type": "custom", "format": "\u001b[0;WWELCOME BACK! \u001b[0;35mJ27\u001b[1;37m@\u001b[0;36mNixOS" },
-            { "type": "custom", "format": "\u001b[35m═\u001b[36m━\u001b[35m═\u001b[36m━\u001b[35m═\u001b[36m━\u001b[35m═\u001b[36m━\u001b[35m═\u001b[36m━\u001b[35m═\u001b[36m━\u001b[35m═\u001b[36m━\u001b[35m═\u001b[36m━\u001b[35m═\u001b[36m━\u001b[35m═\u001b[36m━\u001b[35m═\u001b[36m" },
-            { "type": "os", "key": " Distro", "keyColor": "yellow" },
-            { "type": "kernel", "key": " Kernel", "keyColor": "yellow" },
-            { "type": "packages", "key": "󰏖 Packages", "keyColor": "yellow" },
-            { "type": "shell", "key": " Shell", "keyColor": "yellow" },
-            "break",
-            { "type": "wm", "key": " WM", "keyColor": "blue" },
-            { "type": "terminal", "key": " Terminal", "keyColor": "blue" },
-            "break",
-            { "type": "cpu", "key": "󰻠 CPU", "keyColor": "green" },
-            { "type": "gpu", "key": "󰻑 GPU", "keyColor": "green" },
-            { "type": "memory", "key": "󰾆 Memory", "keyColor": "green" },
-            { "type": "disk", "key": "󰋊 Disk", "keyColor": "green" },
-            "break",
-            { "type": "colors", "symbol": "block", "block": { "range": [0, 15] } }
-        ]
-    }
-  '';
+  # Fastfetch: config gestionada en home/default.nix → ~/.config/fastfetch/config.jsonc
+  # (XDG_CONFIG_HOME tiene prioridad sobre /etc — eliminar aquí evita redundancia)
   programs.hyprland.enable = true;
   
   # Activar hyprland wayland
@@ -157,13 +149,11 @@ xorg.libX11
   # Servicios de gestión de energía para pantalla
   services.logind = {
     # Configuración para manejar la energía y el apagado de pantalla
-    lidSwitch = "suspend";
-    lidSwitchExternalPower = "ignore";
-    powerKey = "hibernate";
-    
-    # Configuración moderna usando settings
+    # powerKey eliminado: duplicado de settings.Login.HandlePowerKey (abajo)
     settings = {
       Login = {
+        HandleLidSwitch = "suspend";               # era lidSwitch (renombrado en 26.05)
+        HandleLidSwitchExternalPower = "ignore";   # era lidSwitchExternalPower
         HandlePowerKey = "hibernate";
         HandleSuspendKey = "suspend";
         HandleHibernateKey = "hibernate";
@@ -176,8 +166,35 @@ xorg.libX11
   # Habilitar screen saver y power management
   hardware.acpilight.enable = true;
 
+  boot.tmp.cleanOnBoot = true; # Limpia /tmp en cada arranque
   boot.loader.systemd-boot.configurationLimit = 5;
-  boot.loader.timeout = 0;
+
+  # --- TUNING DE MEMORIA/IO (SSD + 16 GB RAM) ---
+  boot.kernel.sysctl = {
+    "vm.swappiness"               = 10;   # Evita swap salvo emergencia (default 60)
+    "vm.dirty_ratio"              = 40;   # Máx % RAM para dirty pages antes de bloquear escrituras
+    "vm.dirty_background_ratio"   = 10;   # % RAM para iniciar writeback en background
+    "vm.dirty_expire_centisecs"   = 3000; # 30s antes de forzar escritura de datos sucios
+    "vm.dirty_writeback_centisecs"= 300;  # Intervalo entre pasadas de writeback (3s)
+    "vm.vfs_cache_pressure"       = 50;   # Retiene más caché de directorios/inodos en RAM
+  };
+
+  # --- TIMEOUTS SYSTEMD (default 90s → 15s) ---
+  # Si un servicio falla en arranque, falla rápido en lugar de congelar 90s
+  systemd.settings.Manager = {
+    DefaultTimeoutStartSec = "15s";
+    DefaultTimeoutStopSec = "15s";
+  };
+
+  # --- JOURNAL: limitar tamaño máximo ---
+  services.journald.extraConfig = ''
+    Storage=auto
+    Compress=yes
+    SystemMaxUse=500M
+    SystemMaxFileSize=100M
+    RuntimeMaxUse=100M
+  '';
+  boot.loader.timeout = lib.mkDefault 0; # Hosts individuales pueden override (ej: macmini usa 3)
   nix.gc = {
       automatic = true;
       dates = "weekly";

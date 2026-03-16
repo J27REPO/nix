@@ -48,7 +48,7 @@
     blueman
     udiskie
     firefox
-    inputs.autofirma-nix.packages.${pkgs.system}.autofirma
+    inputs.autofirma-nix.packages.${pkgs.stdenv.hostPlatform.system}.autofirma
     thunar  
     libreoffice
     vicinae   
@@ -190,8 +190,7 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     
-    # Corregido: initContent -> initExtra (estándar de home-manager)
-    initExtra = ''
+    initContent = ''
       export PATH="$HOME/.opencode/bin:$HOME/.npm-global/bin:$PATH"
       export NPM_CONFIG_PREFIX="$HOME/.npm-global"
       fastfetch
@@ -216,7 +215,7 @@
       mac = "ssh j27@macmini";
       opencode = "opencode";
       ll = "ls -l";
-      update = "sudo nixos-rebuild switch --flake ~/nixos-config#laptop"; # Ajusta el hostname según toque
+      update = "sudo nixos-rebuild switch --flake ~/nix#$(hostname)"; # Usa hostname automáticamente
       
       # Alias modernos
       ls = "eza --icons";
@@ -226,7 +225,7 @@
       letta-code = "LETTA_API_URL=http://macmini.local:8283 letta-code";
       
       # Alias para editar rápido con micro
-      conf = "micro ~/nixos-config/flake.nix";
+      conf = "micro ~/nix/flake.nix";
       vi = "micro";   # Por si la costumbre te hace escribir vi
       vim = "micro";
       nano = "micro";
@@ -289,6 +288,7 @@
             { "type": "terminal", "key": " Terminal", "keyColor": "blue" },
             "break",
             { "type": "cpu", "key": "󰻠 CPU", "keyColor": "green" },
+            { "type": "gpu", "key": "󰻑 GPU", "keyColor": "green" },
             { "type": "memory", "key": "󰾆 Memory", "keyColor": "green" },
             { "type": "disk", "key": "󰋊 Disk", "keyColor": "green" },
             "break",

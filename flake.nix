@@ -16,12 +16,12 @@
       user = "j27";
       
       # Función modificada para aceptar argumentos de teclado y monitor
-      mkHost = hostname: kbLayout: kbOptions: monitorConfig: nixpkgs.lib.nixosSystem {
+      mkHost = hostname: kbLayout: kbVariant: kbOptions: monitorConfig: nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = { 
           inherit inputs user; 
           # Pasamos las variables de teclado y monitor a todo el sistema
-          inherit kbLayout kbOptions monitorConfig;
+          inherit kbLayout kbVariant kbOptions monitorConfig;
         };
         modules = [
           ./modules/core.nix
@@ -29,7 +29,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs user kbLayout kbOptions monitorConfig hostname; };
+            home-manager.extraSpecialArgs = { inherit inputs user kbLayout kbVariant kbOptions monitorConfig hostname; };
             home-manager.users.${user} = import ./home/default.nix;
           }
           ./hosts/${hostname}/default.nix
@@ -39,11 +39,11 @@
     in
     {
       nixosConfigurations = {
-        # Laptop: Español, monitor automático a escala 1
-        laptop = mkHost "laptop" "es" "" ",preferred,auto,1";
+        # Laptop: Español, sin variante, monitor automático a escala 1
+        laptop = mkHost "laptop" "es" "" "" ",preferred,auto,1";
 
-        # Mac Mini: Inglés (US), Monitor DP-1 a 120Hz
-        macmini = mkHost "macmini" "us" "compose:caps" "DP-1,1920x1080@120,auto,1";
+        # Mac Mini: US International (dead keys) — ´+a=á, `+a=à, ~+n=ñ, sin compose
+        macmini = mkHost "macmini" "us" "intl" "" "DP-1,1920x1080@120,auto,1";
       };
     };
 }

@@ -3,8 +3,18 @@
 {
   imports = [ /etc/nixos/hardware-configuration.nix ];
   
-  boot.kernelParams = [ "snd_hda_intel.model=apple-headset-multi" ];
+  boot.kernelParams = [
+    "snd_hda_intel.model=apple-headset-multi"
+    "i915.enable_fbc=1"          # Compresión de framebuffer: reduce uso de ancho de banda de memoria
+    "transparent_hugepage=madvise" # Huge pages solo cuando la app las solicita (mejor que always)
+  ];
+
+  # Desktop+server: schedutil usa datos del scheduler para escalar frecuencia — mejor que ondemand
+  powerManagement.cpuFreqGovernor = "schedutil";
   boot.kernelModules = [ "uinput" ];
+  boot.initrd.kernelModules = [ "i915" ];           # Early KMS: i915 en initrd para TTY con aceleración
+  boot.loader.timeout = 3;                          # Override del 0 de core.nix — tiempo de recuperación
+  boot.blacklistedKernelModules = [ "b43" "bcma" ]; # WiFi no usado; evita errores de firmware b43 en cada arranque
 
   # Regla uinput corregida para que Sunshine tenga permisos totales de entrada
   services.udev.extraRules = ''
@@ -23,13 +33,33 @@ networking.interfaces.enx10ddb1c93253.wakeOnLan = {
   # El adaptador USB-Ethernet solo sirve para WoL, no siempre está conectado.
   # Sin esto, systemd espera que aparezca en cada arranque hasta el timeout (~90s).
   systemd.network.wait-online.ignoredInterfaces = [ "enx10ddb1c93253" ];
+  # Impide que dhcpcd espere este adaptador USB-Ethernet y cause 90s de timeout en arranque
+  networking.dhcpcd.denyInterfaces = [ "enx10ddb1c93253" ];
+
   # 2. Drivers Gráficos e Intel Packages
-  services.xserver.videoDrivers = [ "intel" ]; 
-  hardware.graphics.enable = true;
-  environment.systemPackages = [ 
-    pkgs.ethtool 
-    pkgs.intel-vaapi-driver # Driver para que Sunshine codifique video por hardware
-  ];
+  # modesetting + DRM i915 (reemplaza el viejo xf86-video-intel, más estable en Ivy Bridge)
+  services.xserver.videoDrivers = [ "modesetting" ];
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-vaapi-driver  # VA-API para Intel Ivy Bridge HD 4000 (i965)
+      libvdpau-va-gl      # Fallback VDPAU → VAAPI para apps que lo necesiten
+    ];
+  };
+  # Forzar driver i965 para HD 4000; sin esto libva puede seleccionar el incorrecto
+  environment.sessionVariables.LIBVA_DRIVER_NAME = "i965";
+  environment.sessionVariables.VDPAU_DRIVER = "va_gl"; # VDPAU → VA-API (par de LIBVA_DRIVER_NAME)
+
+  # Microcode Intel: aplica mitigaciones Spectre/Meltdown a nivel hardware (más rápido que SW)
+  hardware.cpu.intel.updateMicrocode = true;
+
+  # Daemon térmico Intel: gestiona P-states antes de que el kernel haga throttling de golpe
+  # Útil para cargas sostenidas (Sunshine streaming, builds nix)
+  services.thermald.enable = true;
+
+  # TRIM periódico para SSD (prolonga vida útil y mantiene rendimiento de escritura)
+  services.fstrim.enable = true;
+  environment.systemPackages = [ pkgs.ethtool ];
 security.polkit.extraConfig = ''
   polkit.addRule(function(action, subject) {
     if (action.id == "org.freedesktop.login1.suspend" &&
@@ -51,8 +81,11 @@ security.polkit.extraConfig = ''
 
   # 4. Tailscale y DNS
   services.tailscale.enable = true;
-  networking.hostName = "macmini";
-  services.resolved.enable = true;
+  # networking.hostName ya definido en flake.nix — eliminado duplicado
+  services.resolved = {
+    enable = true;
+    settings.Resolve.MulticastDNS = "no"; # Evita conflicto con Avahi (mDNS dual-stack warning)
+  };
 
   services.avahi = {
     enable = true;
@@ -64,40 +97,6 @@ security.polkit.extraConfig = ''
     };
   };
 
-  services.ollama = {
-    enable = true;
-    host = "0.0.0.0";
-    port = 11434;
-    # Optimización para hardware antiguo (Intel 3rd Gen) usando CPU
-    package = pkgs.ollama; 
-  };
-  systemd.services.ollama.serviceConfig.Environment = [
-    "OLLAMA_NUM_THREADS=4"
-    "OLLAMA_KEEP_ALIVE=20m"
-  ];
-
-  # Descargar modelo Qwen automáticamente
-  systemd.services.ollama-model = {
-    description = "Pull Ollama qwen2.5-coder:7b model";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "ollama.service" ];
-    path = [ pkgs.ollama pkgs.curl ];
-    script = ''
-      # Esperar a que la API de Ollama responda
-      until curl -s http://127.0.0.1:11434/api/tags > /dev/null; do
-        sleep 5
-      done
-      # Solo descargar si no está ya instalado
-      if ! ollama list | grep -q "qwen2.5-coder:7b"; then
-        ollama pull qwen2.5-coder:7b
-      fi
-    '';
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-  };
-
   # 5. Letta Server (Container)
   virtualisation.oci-containers.backend = "docker";
   virtualisation.oci-containers.containers.letta = {
@@ -105,9 +104,6 @@ security.polkit.extraConfig = ''
     # Usamos network=host para conectar fácilmente con Ollama en localhost
     extraOptions = [ "--network=host" ]; 
     volumes = [ "/home/j27/.letta:/root/.letta" ];
-    environment = {
-      LETTA_OLLAMA_ENDPOINT = "http://localhost:11434";
-    };
   };
 
   # 6. Sunshine (Streaming)
@@ -122,7 +118,7 @@ security.polkit.extraConfig = ''
   networking.firewall = {
     enable = true;
     checkReversePath = "loose";
-    allowedTCPPorts = [ 22 47984 47989 47990 48010 11434 8283 ];
+    allowedTCPPorts = [ 22 47984 47989 47990 48010 8283 ]; # SSH, Sunshine, Letta
     allowedUDPPorts = [ 41641 47998 47999 48000 48002 48010 ];
   };
 
@@ -134,6 +130,6 @@ security.polkit.extraConfig = ''
   users.users.${user} = {
     isNormalUser = true;
     shell = pkgs.zsh;
-    extraGroups = [ "networkmanager" "wheel" "video" "docker" "uinput" "input" ];
+    extraGroups = [ "wheel" "video" "docker" "uinput" "input" ]; # networkmanager eliminado (no hay NM en este host)
   };
 }
