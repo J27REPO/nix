@@ -1,4 +1,4 @@
-{ pkgs, user, ... }:
+{ pkgs, lib, user, ... }:
 
 {
   imports = [ /etc/nixos/hardware-configuration.nix ];
@@ -26,15 +26,15 @@
   boot.loader.efi.canTouchEfiVariables = true;
   
 
-networking.interfaces.enx10ddb1c93253.wakeOnLan = {
-    enable = true;
-    policy = [ "magic" ];
-  };
-  # El adaptador USB-Ethernet solo sirve para WoL, no siempre está conectado.
-  # Sin esto, systemd espera que aparezca en cada arranque hasta el timeout (~90s).
-  systemd.network.wait-online.ignoredInterfaces = [ "enx10ddb1c93253" ];
-  # Impide que dhcpcd espere este adaptador USB-Ethernet y cause 90s de timeout en arranque
-  networking.dhcpcd.denyInterfaces = [ "enx10ddb1c93253" ];
+  # WoL eliminado - no se necesita acceso remoto
+
+  # --- ARRANQUE SIN ESPERAR RED ---
+  # No bloquear el arranque esperando a que la red esté online
+  systemd.network.wait-online.enable = false;
+  # dhcpcd obtiene IP en background, no bloquea el boot
+  networking.dhcpcd.extraConfig = ''
+    background yes
+  '';
 
   # 2. Drivers Gráficos e Intel Packages
   # modesetting + DRM i915 (reemplaza el viejo xf86-video-intel, más estable en Ivy Bridge)
@@ -79,8 +79,7 @@ security.polkit.extraConfig = ''
     };
   };
 
-  # 4. Tailscale y DNS
-  services.tailscale.enable = true;
+  # 4. DNS (Tailscale desactivado - no se necesita acceso remoto)
   # networking.hostName ya definido en flake.nix — eliminado duplicado
   services.resolved = {
     enable = true;
@@ -102,9 +101,15 @@ security.polkit.extraConfig = ''
   virtualisation.oci-containers.containers.letta = {
     image = "letta/letta:latest";
     # Usamos network=host para conectar fácilmente con Ollama en localhost
-    extraOptions = [ "--network=host" ]; 
+    extraOptions = [ "--network=host" ];
     volumes = [ "/home/j27/.letta:/root/.letta" ];
   };
+  # Docker y Letta no necesitan esperar a la red para iniciar
+  systemd.services.docker.wantedBy = [ "multi-user.target" ];
+  systemd.services.docker.after = [ "basic.target" ];
+  systemd.services.docker.requires = lib.mkForce [ ];
+  systemd.services.docker-letta.after = [ "docker.service" ];
+  systemd.services.docker-letta.requires = [ "docker.service" ];
 
   # 6. Sunshine (Streaming)
   services.sunshine = {
@@ -119,7 +124,7 @@ security.polkit.extraConfig = ''
     enable = true;
     checkReversePath = "loose";
     allowedTCPPorts = [ 22 47984 47989 47990 48010 8283 ]; # SSH, Sunshine, Letta
-    allowedUDPPorts = [ 41641 47998 47999 48000 48002 48010 ];
+    allowedUDPPorts = [ 47998 47999 48000 48002 48010 ]; # Sunshine (41641 Tailscale eliminado)
   };
 
   # --- USUARIO Y GRUPOS ---
