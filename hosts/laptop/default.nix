@@ -1,13 +1,22 @@
-{ pkgs, user, ... }:
+{ pkgs, lib, user, ... }:
 
 {
   imports = [ /etc/nixos/hardware-configuration.nix ];
 
   # --- NETWORKING & HOSTNAME ---
-  networking.hostName = "laptop"; 
+  networking.hostName = "laptop";
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.backend = "iwd"; # Motor de iwd para Impala
   networking.wireless.iwd.enable = true;          # Activar servicio iwd
+
+  # WiFi power saving + roaming inteligente
+  networking.wireless.iwd.settings = {
+    General = {
+      EnableNetworkConfiguration = true;
+      RoamThreshold = -70;   # Busca mejor señal cuando baja de -70dBm
+      RoamThreshold5G = -76; # Más permisivo en 5GHz (más ancho de banda)
+    };
+  };
 
   # --- ACCESO REMOTO (SSH & VPN) ---
   services.tailscale.enable = true;
@@ -85,6 +94,11 @@
     };
   };
 
+  # --- THERMALD: Protección contra sobrecalentamiento ---
+  # Daemon de Intel que gestiona temperaturas automáticamente.
+  # Funciona con AMD también (lee zonas térmicas del sistema).
+  services.thermald.enable = true;
+
   # --- GESTIÓN DE ENERGÍA: evitar que el portátil "resucite" tras poweroff ---
   # Los controladores USB (XHC0, XHC1) y el dispositivo PCIe (GP17) tienen
   # habilitada la capacidad de despertar el sistema desde S5 (apagado).
@@ -111,28 +125,56 @@
   # --- OPTIMIZACIONES DE RENDIMIENTO Y BATERÍA ---
 
   # 1. ZRAM: swap en RAM comprimida — más rápido que SSD y sin desgastarlo
-  #    Con 7GB RAM, 4GB de zram comprimido equivale a ~8-12GB reales
+  #    Con 7GB RAM, 2.5GB de zram comprimido equivale a ~5-7GB reales
   zramSwap = {
     enable = true;
     algorithm = "zstd";   # Mejor ratio compresión/velocidad
-    memoryPercent = 50;   # Usa hasta el 50% de RAM para zram (~3.5GB)
+    memoryPercent = 35;   # ~2.5GB (más conservador que 50%)
   };
 
   # 2. SWAPPINESS: preferir RAM sobre swap (0=nunca, 100=siempre, default=60)
   #    Con 7GB RAM no hay razón para usar swap salvo emergencia
   boot.kernel.sysctl = {
-    "vm.swappiness" = 10;
-    "vm.dirty_ratio" = 15;           # % RAM para escrituras en caché
-    "vm.dirty_background_ratio" = 5; # Empieza a vaciar caché en segundo plano
+    "vm.swappiness" = lib.mkForce 10;
+    "vm.dirty_ratio" = lib.mkForce 15;           # % RAM para escrituras en caché
+    "vm.dirty_background_ratio" = lib.mkForce 5; # Empieza a vaciar caché en segundo plano
   };
 
-  # 3. KERNEL PARAMS: optimizaciones AMD + NVMe
+  # 3. KERNEL PARAMS: optimizaciones AMD + NVMe + USB
   boot.kernelParams = [
     # NVMe: permite estados de bajo consumo (ahorra ~0.5-1W en reposo)
     "nvme_core.default_ps_max_latency_us=5500"
     # AMD pstate activo (ya cargado como driver, esto lo confirma)
     "amd_pstate=active"
+    # USB autosuspend: suspende puertos USB no usados (ahorra ~0.5W)
+    "usbcore.autosuspend=2"
+    # AMD GPU: permite control manual de frecuencias/voltaje (undervolting)
+    "amdgpu.ppfeaturemask=0xffffffff"
   ];
+
+  # 4. POWER MANAGEMENT: gestión de energía general
+  powerManagement.enable = true;
+  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+
+  # 5. GAMEMODE: optimizaciones automáticas al jugar
+  # - Pone CPU en modo performance
+  # - Deshabilita screensaver
+  # - Prioriza el proceso del juego
+  # - Mejora latencia de GPU
+  programs.gamemode = {
+    enable = true;
+    enableRenice = true;        # Prioridad alta para juegos
+    settings = {
+      general = {
+        softrealtime = "auto";  # Prioridad de scheduling para audio/juegos
+        renice = 10;            # Prioridad del proceso (0-20, menor = más prioridad)
+      };
+      gpu = {
+        apply_gpu_optimizations = "accept-responsibility";
+        gpu_device = 0;         # Primera GPU (AMD integrada)
+      };
+    };
+  };
 
   # El paquete 'moonlight-qt' debe ir en tu nix/home/default.nix.
 }
