@@ -9,7 +9,14 @@
       "Edit(**)",
       "Bash(find:*)",
       "Bash(grep:*)",
-      "Bash(# Comprobar estado actual del sistema en vivo\ncat /sys/power/mem_sleep 2>/dev/null && echo \"---mem_sleep---\"\ncat /proc/acpi/wakeup 2>/dev/null | head -20 && echo \"---wakeup---\"\n# Ver qué WakeOnLan tiene la tarjeta de red\nfor iface in $(ls /sys/class/net/); do echo \"$iface:\"; ethtool \"$iface\" 2>/dev/null | grep -i wake; done)"
+      "Bash(# Comprobar estado actual del sistema en vivo\ncat /sys/power/mem_sleep 2>/dev/null && echo \"---mem_sleep---\"\ncat /proc/acpi/wakeup 2>/dev/null | head -20 && echo \"---wakeup---\"\n# Ver qué WakeOnLan tiene la tarjeta de red\nfor iface in $(ls /sys/class/net/); do echo \"$iface:\"; ethtool \"$iface\" 2>/dev/null | grep -i wake; done)",
+      "Bash(sed -i '9 a\\    \\n    # NvChad para Neovim\\n    nix4nvchad = {\\n      url = \"github:nix-community/nix4nvchad\";\\n      inputs.nixpkgs.follows = \"nixpkgs\";\\n    };' flake.nix)",
+      "Bash(sed -i 's|imports = \\[ |imports = [ \\n    ./nvchad.nix|' home/default.nix)",
+      "Bash(sed -i 's/EDITOR = \"micro\"/EDITOR = \"nvim\"/' home/default.nix)",
+      "Bash(sed -i 's/VISUAL = \"micro\"/VISUAL = \"nvim\"/' home/default.nix)",
+      "Bash(sed -i 's/VARIABLES DE ENTORNO (Micro por defecto)/VARIABLES DE ENTORNO (Nvim por defecto)/' home/default.nix)",
+      "Bash(git -C:*)",
+      "Bash(sed -i 's/nixfmt-rfc-style/nixfmt/' home/nvchad.nix)"
     ]
   }
 }

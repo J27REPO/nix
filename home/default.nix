@@ -2,19 +2,23 @@
 
 {
   imports = [ 
-    ./hyprland.nix 
+    ./nvchad.nix
+    ./hyprland.nix
+    ./mime-apps.nix 
   ];
 
   home.username = user;
   home.homeDirectory = "/home/${user}";
   home.stateVersion = "24.05";
 
-  # --- VARIABLES DE ENTORNO (Micro por defecto) ---
+  # --- VARIABLES DE ENTORNO (Nvim por defecto) ---
   home.sessionVariables = {
-    EDITOR = "micro";
-    VISUAL = "micro";
+    EDITOR = "nvim";
+    VISUAL = "nvim";
     LETTA_API_URL = "http://macmini.local:8283"; # Servidor en Mac Mini
     # GEMINI_API_KEY = "TU_API_KEY_AQUI"; # Descomenta y pon tu clave
+    ANDROID_HOME = "/home/${user}/Android/Sdk";
+    JAVA_HOME = "${pkgs.jdk21}/lib/openjdk";
   };
 
   home.packages = with pkgs; [
@@ -63,6 +67,8 @@
     hypridle
     pywal
     # Herramientas de Sistema
+    android-studio
+    gradle
     jdk21
     htop
     python3
@@ -84,11 +90,13 @@
     ani-cli
     # Fuentes
     nerd-fonts.jetbrains-mono
+    libertinus  # Linux Libertine para Typst
     # Comma: ejecuta comandos sin instalarlos (`,' cowsay hola`)
     comma
     # notify-send (para notificaciones mako desde terminal)
     libnotify
   ];
+
 
   # 2. Copiar tu imagen a una ruta conocida en el sistema (~/.config/hypr/wallpaper.png)
     xdg.configFile."hypr/wallpaper.png".source = if hostname == "laptop" then ./laptop_wallpaper.jpg else ./wallpaper.png;
@@ -165,8 +173,11 @@
       package = pkgs.gnome-themes-extra;
     };
     iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
+      name = "Vivid-Glassy-Dark-Icons";
+      package = pkgs.runCommand "vivid-glassy-icons" {} ''
+        mkdir -p $out/share/icons/Vivid-Glassy-Dark-Icons
+        cp -r ${./icons/Vivid-Glassy-Dark-Icons}/* $out/share/icons/Vivid-Glassy-Dark-Icons/
+      '';
     };
   };
 
@@ -291,6 +302,7 @@
             { "type": "gpu", "key": "󰻑 GPU", "keyColor": "green" },
             { "type": "memory", "key": "󰾆 Memory", "keyColor": "green" },
             { "type": "disk", "key": "󰋊 Disk", "keyColor": "green" },
+            { "type": "battery", "key": "󰁹 Battery", "keyColor": "green" },
             "break",
             { "type": "colors", "symbol": "block", "block": { "range": [0, 15] } }
         ]
