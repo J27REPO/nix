@@ -69,7 +69,7 @@
   users.users.${user} = {
     isNormalUser = true;
     shell = pkgs.zsh;
-    extraGroups = [ "networkmanager" "wheel" "video" "docker" ]; 
+    extraGroups = [ "networkmanager" "wheel" "video" "docker" "flatpak" ]; 
   };
 
   # --- VARIABLES DE ENTORNO ---
@@ -175,6 +175,19 @@
       };
     };
   };
+
+  # --- FLATPAK (Para apps con dependencias como Lutris) ---
+  services.flatpak = {
+    enable = true;
+  };
+
+  # Añadir flathub como source de flatpak
+  environment.etc."flatpak/repos/flathub.conf".text = ''
+    [Flatpak Repo]
+    Title=Flathub
+    URL=https://flathub.org/repo/flathub.flatpakrepo
+    GPGKey=https://flathub.org/repo/flathub.trustedkeys.gpg
+  '';
 
   # El paquete 'moonlight-qt' debe ir en tu nix/home/default.nix.
 }

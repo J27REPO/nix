@@ -37,7 +37,7 @@
     discord
     unrar
     winetricks
-    wineWow64Packages.stable
+    wineWow64Packages.stagingFull
     zotero
     antigravity
     morgen
@@ -53,6 +53,7 @@
     udiskie
     firefox
     inputs.autofirma-nix.packages.${pkgs.stdenv.hostPlatform.system}.autofirma
+    xdg-desktop-portal-hyprland
     thunar  
     libreoffice
     vicinae   
@@ -93,9 +94,11 @@
     libertinus  # Linux Libertine para Typst
     # Comma: ejecuta comandos sin instalarlos (`,' cowsay hola`)
     comma
-    # notify-send (para notificaciones mako desde terminal)
-    libnotify
-  ];
+     # notify-send (para notificaciones mako desde terminal)
+     libnotify
+   ];
+
+
 
 
   # 2. Copiar tu imagen a una ruta conocida en el sistema (~/.config/hypr/wallpaper.png)
@@ -239,7 +242,7 @@
       conf = "micro ~/nix/flake.nix";
       vi = "micro";   # Por si la costumbre te hace escribir vi
       vim = "micro";
-      nano = "micro";
+      nano = "nvim";
       
       # Alias para apagar pantalla
       apagar = "hyprctl dispatch dpms off";

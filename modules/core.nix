@@ -28,6 +28,7 @@
   # android-tools ya está en home packages — funciona sin módulo adicional
 
   # Firmware redistribuible: WiFi (BCM4331), Bluetooth, iGPU, etc.
+  hardware.graphics.enable32Bit = true;
   hardware.enableRedistributableFirmware = true;
   services.usbmuxd.enable = true;
   services.flatpak.enable = true;
@@ -87,6 +88,35 @@
         libxrender
         libxtst
         libxcb
+
+   # --- LIBRERÍAS 32-BIT PARA WINE/LUTRYS ---
+   pkgs.pkgsi686Linux.vulkan-loader
+   pkgs.pkgsi686Linux.libglvnd
+   pkgs.pkgsi686Linux.alsa-lib
+   pkgs.pkgsi686Linux.libX11
+   pkgs.pkgsi686Linux.libXcursor
+   pkgs.pkgsi686Linux.libXrandr
+   pkgs.pkgsi686Linux.libXi
+   pkgs.pkgsi686Linux.libXinerama
+   pkgs.pkgsi686Linux.libXcomposite
+   pkgs.pkgsi686Linux.libXdamage
+   pkgs.pkgsi686Linux.libXext
+   pkgs.pkgsi686Linux.libXfixes
+   pkgs.pkgsi686Linux.libXrender
+   pkgs.pkgsi686Linux.libXtst
+   pkgs.pkgsi686Linux.libxcb
+   pkgs.pkgsi686Linux.libxml2
+   pkgs.pkgsi686Linux.libxslt
+   pkgs.pkgsi686Linux.libpcap
+   pkgs.pkgsi686Linux.dbus
+   pkgs.pkgsi686Linux.gtk3
+   pkgs.pkgsi686Linux.pango
+   pkgs.pkgsi686Linux.cairo
+   pkgs.pkgsi686Linux.expat
+   pkgs.pkgsi686Linux.gettext
+   pkgs.pkgsi686Linux.zlib
+   pkgs.pkgsi686Linux.ncurses5
+   pkgs.pkgsi686Linux.libsodium
   ];
   virtualisation.docker.enable = true;
   # Añade tu usuario al grupo docker para no usar sudo siempre
@@ -96,6 +126,9 @@
     git vim wget curl kitty fastfetch
     gnumake gcc binutils
     appimage-run
+    # Gaming: Lutris + Wine
+    lutris
+    gamemode  # Ya instalado en laptop, necesario para lutris
     aichat # Cliente de terminal para LLMs como Ollama (como alternativa a "clawd bot")
     gsettings-desktop-schemas
       gtk3
