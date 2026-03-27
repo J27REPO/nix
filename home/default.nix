@@ -23,6 +23,7 @@
 
   home.packages = with pkgs; [
     # Navegadores y Apps
+    ncdu
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
     vscode
     typst
