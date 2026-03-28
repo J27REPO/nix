@@ -198,7 +198,7 @@
   # Auto-optimise-store: ahorra espacio deduplicando archivos en el store
   nix.settings.auto-optimise-store = true;
 
-  # Binary caches para加速 descargas (usa cachix si tienes cuenta)
-  # nix.settings.substituters = [ "https://cache.nixos.org" ];
-  # nix.settings.trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWyzPY0oiKSQoEn3 Silk2046" ];
+  # --- TIMEZONE ---
+  # España/Madrid (CET = UTC+1, CEST = UTC+2 en verano)
+  time.timeZone = "Europe/Madrid";
 }

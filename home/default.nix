@@ -109,6 +109,7 @@
 
     # UTILIDADES
     waylock            # Pantalla de bloqueo minimalista para Wayland
+    wlsunset           # Control automatico de gamma segun hora del dia
     ];
 
 
@@ -401,15 +402,34 @@
       ignore-timeout = 0;
       max-visible = 5;
 
+      # Iconos y acciones
+      icon-path = "${pkgs.hicolor-icon-theme}/share/icons/hicolor"; # Iconos de sistema
+      default-action = "default";   # Click abre la app
+
+      # Control de sonido
+      sound = true;
+      normalize = true;             # Normaliza volumen de sonidos
+
+      # Capas y visibilidad
+      layer = "overlay";            # Layer de Wayland (arriba de todo)
+      sort = "-time";               # Mas reciente primero
+
       # Urgencia baja — borde más tenue
       "urgency=low" = {
         border-color = "#595959aa";
         default-timeout = 3000;
+        background-color = "#15151599";
+      };
+      # Urgencia normal
+      "urgency=normal" = {
+        border-color = "#bd00ffee";
+        default-timeout = 5000;
       };
       # Urgencia crítica — borde cian + no se va solo
       "urgency=critical" = {
         border-color = "#00f7ffee";
         default-timeout = 0;
+        background-color = "#151515ff";
       };
     };
   };
@@ -483,9 +503,9 @@
        day = 6500;   # Color neutro de día
        night = 4500; # Un poco más cálido de noche (no naranja exagerado)
      };
-     settings = {
-       general.fade = "1"; # Transición suave
-     };
-   };
-  
+      settings = {
+        general.fade = "1"; # Transición suave
+      };
+    };
+
 }

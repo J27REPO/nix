@@ -2,6 +2,13 @@
 
 All notable changes to this NixOS configuration will be documented in this file.
 
+## [v1.2.0] - 2026-03-28
+### Added
+- wlsunset package for automatic gamma control
+- Expanded mako notifications (icons, sound, layer, urgency levels)
+### Fixed
+- Timezone set to Europe/Madrid (was UTC)
+
 ## [v1.1.0] - 2026-03-28
 ### Added
 - Optimization packages: ccache, parallel (faster compilation)
