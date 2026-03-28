@@ -57,6 +57,9 @@
     enable32Bit = true; 
   };
 
+  # Early KMS: carga el driver AMD antes en el boot para boot más rápido
+  boot.initrd.kernelModules = [ "amdgpu" ];
+
   # --- TIPOGRAFÍAS ---
   fonts = {
     fontconfig = {
@@ -190,4 +193,12 @@
   '';
 
   # El paquete 'moonlight-qt' debe ir en tu nix/home/default.nix.
+
+  # --- NIX OPTIMIZATIONS ---
+  # Auto-optimise-store: ahorra espacio deduplicando archivos en el store
+  nix.settings.auto-optimise-store = true;
+
+  # Binary caches para加速 descargas (usa cachix si tienes cuenta)
+  # nix.settings.substituters = [ "https://cache.nixos.org" ];
+  # nix.settings.trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWyzPY0oiKSQoEn3 Silk2046" ];
 }

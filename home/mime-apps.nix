@@ -9,8 +9,7 @@
     icon = "nvim";
     type = "Application";
     categories = [ "TextEditor" "Development" "Utility" ];
-    terminal = true;
-    exec = "nvim %F";
+    exec = "kitty -e nvim %F";
     mimeType = [ "text/plain" "text/x-log" "text/markdown" "application/x-extension-txt" "inode/x-empty" ];
   };
 

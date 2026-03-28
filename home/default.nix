@@ -23,6 +23,7 @@
 
   home.packages = with pkgs; [
     # Navegadores y Apps
+    claude-code
     ncdu
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
     vscode
@@ -93,11 +94,22 @@
     # Fuentes
     nerd-fonts.jetbrains-mono
     libertinus  # Linux Libertine para Typst
-    # Comma: ejecuta comandos sin instalarlos (`,' cowsay hola`)
-    comma
-     # notify-send (para notificaciones mako desde terminal)
-     libnotify
-   ];
+     # Comma: ejecuta comandos sin instalarlos (`,' cowsay hola`)
+     comma
+      # notify-send (para notificaciones mako desde terminal)
+      libnotify
+
+    # OPTIMIZACIÓN
+    ccache             # Cache de compilación - recompila más rápido
+    parallel           # Paralelización de builds en nix
+
+    # WAYLAND CLIPBOARD
+    cliphist           # Historial del portapapeles Wayland
+    wl-clipboard       # ya incluye wl-copy/wl-paste
+
+    # UTILIDADES
+    waylock            # Pantalla de bloqueo minimalista para Wayland
+    ];
 
 
 
@@ -172,6 +184,7 @@
   # --- TEMA GTK (Para que Micro/Dolphin se vean oscuros) ---
   gtk = {
     enable = true;
+    gtk4.theme = config.gtk.theme;
     theme = {
       name = "Adwaita-dark";
       package = pkgs.gnome-themes-extra;
@@ -343,6 +356,7 @@
 
   programs.git = {
     enable = true;
+    signing.format = "openpgp";
     settings.user.name = "J27REPO";
     settings.user.email = "josesf2004@gmail.com";
   };
