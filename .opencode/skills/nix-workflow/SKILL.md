@@ -13,11 +13,11 @@ Edit the necessary .nix files following conventions in `nix-edit` skill.
 
 ### 2. UPDATE DOCUMENTATION
 After making changes, update relevant docs:
-- If you added a package: document it in the comments or a README if exists
+- If you added a package: document it in the code comments
 - If you changed a config section: update any comments explaining it
 - If you fixed a bug: add a comment explaining the fix
 - If you added a new module: add it to the imports list with explanation
-- Keep AGENTS.md updated if it exists
+- If you added new features or changed structure: update README.md (see `nix-docs` skill)
 - Update CHANGELOG.md with the changes
 
 ### 3. REBUILD
@@ -65,4 +65,5 @@ Tell the user the system is ready with the new changes and version.
 - ALWAYS attempt auto-fix on failure before asking user
 - NEVER ask for confirmation on commit message
 - ALWAYS auto-generate version bump and changelog entry
+- ALWAYS update README.md if new features or structural changes
 - NEVER push a broken configuration

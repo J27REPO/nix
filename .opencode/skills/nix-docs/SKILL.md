@@ -48,10 +48,15 @@ When changing default values or behavior:
 - Add comment explaining why new value was chosen
 
 ### README Maintenance
-If `~/nix/README.md` exists, update it when:
-- Adding new modules or imports
-- Changing host-specific configurations
-- Adding new dependencies between modules
+Since this repo is public and serves as inspiration for others, README.md must be kept current:
+
+- Adding new features → Update "Features" section and/or add to structure
+- Adding new packages → Add to relevant config file comments (don't list in README)
+- Adding new modules → Update structure tree in README
+- Changing host configurations → Update "Key Configs" table if relevant
+- Bug fixes → No need to update README (CHANGELOG captures this)
+
+The README reflects the current state of the repo; CHANGELOG captures history.
 
 ## What NOT to Document
 - Obvious settings (no need to comment `enable = true`)
