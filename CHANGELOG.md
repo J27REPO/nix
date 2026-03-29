@@ -2,6 +2,14 @@
 
 All notable changes to this NixOS configuration will be documented in this file.
 
+## [v1.4.0] - 2026-03-29
+### Added
+- AMD GPU Overdrive native module (replaces kernel param)
+- LACT GPU monitoring service (laptop)
+- Firewalld backend migration
+- Ccache with compression and prefixed output
+- Updated home-manager and zen-browser inputs
+
 ## [v1.3.0] - 2026-03-28
 ### Added
 - Sysctl tuning: sched_autogroup, sched_migration_cost, inotify watches, TCP fastopen
