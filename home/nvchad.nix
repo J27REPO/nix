@@ -54,7 +54,7 @@
       suggestion = {
         auto_trigger = true,
         keymap = {
-          accept = "<C-l>",
+          accept = "<Tab>",
           next = "<C-]>",
           dismiss = "<C-e>",
         },
