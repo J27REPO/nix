@@ -72,10 +72,5 @@
 
     -- Close neovim with save: Space + q + q
     map("n", "<leader>qq", ":w<CR>:q<CR>", { desc = "Save and close neovim" })
-
-    -- Swap Space f f and Space f z
-    -- Space f z = find files, Space f f = search in files (grep)
-    map("n", "<leader>fz", "<cmd>Telescope find_files<CR>", { desc = "Find files" })
-    map("n", "<leader>ff", ":Rg<CR>", { desc = "Search in files (grep)" })
   '';
 }
