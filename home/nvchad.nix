@@ -37,4 +37,14 @@
     hm-activation = true;
     backup = false;  # Desactivamos backup para no llenar ~/.config
   };
+
+  # --- KEYBINDINGS NERDTVIM ESTILO ---
+  # Espacio ss = guardar, Espacio qq = cerrar
+  programs.neovim.initLua = ''
+    -- Save file: Space + s + s
+    vim.keymap.set('n', '<leader>ss', ':w<CR>', { silent = false, desc = 'Save file' })
+    
+    -- Close neovim: Space + q + q
+    vim.keymap.set('n', '<leader>qq', ':q<CR>', { silent = false, desc = 'Close neovim' })
+  '';
 }
