@@ -2,6 +2,10 @@
 
 All notable changes to this NixOS configuration will be documented in this file.
 
+## [v1.2.1] - 2026-03-28
+### Fixed
+- wlsunset command flags corrected (removed invalid -m flag)
+
 ## [v1.2.0] - 2026-03-28
 ### Added
 - wlsunset package for automatic gamma control

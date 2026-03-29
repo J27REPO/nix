@@ -35,6 +35,7 @@
               "swayosd-server"
               "hypridle" # config en ~/.config/hypr/hypridle.conf (XDG default)
               "mako"
+              "wlsunset -l 40.4 -L -3.7 -t 4500 -T 6500"
             ];
       bindr = [
               "SUPER, SUPER_L, exec, vicinae toggle"
