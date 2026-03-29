@@ -138,9 +138,25 @@
   # 2. SWAPPINESS: preferir RAM sobre swap (0=nunca, 100=siempre, default=60)
   #    Con 7GB RAM no hay razón para usar swap salvo emergencia
   boot.kernel.sysctl = {
+    # Memoria y swap (algunos ya definidos en core.nix, los sobreescribimos con mkForce)
     "vm.swappiness" = lib.mkForce 10;
     "vm.dirty_ratio" = lib.mkForce 15;           # % RAM para escrituras en caché
-    "vm.dirty_background_ratio" = lib.mkForce 5; # Empieza a vaciar caché en segundo plano
+    "vm.dirty_background_ratio" = lib.mkForce 5;  # Empieza a vaciar caché en segundo plano
+    # vm.vfs_cache_pressure ya definido en core.nix (50)
+
+    # Scheduling y responsividad
+    "kernel.sched_autogroup_enabled" = 0;        # Desactiva grouping de tareas interactivas
+    "kernel.sched_migration_cost_ns" = 500000;   # Tiempo que tarea "caliente" evita migrar (500µs)
+    "kernel.sched_latency_ns" = 10000000;        # Periodo de scheduling (10ms = responsive)
+    "kernel.sched_min_granularity_ns" = 1000000;  # Granularidad mínima (1ms)
+
+    # Red y archivos
+    "fs.inotify.max_user_watches" = 524288;       # Más watches para file watchers (vscode, etc)
+    "fs.file-max" = 2097152;                     # Max archivos abiertos sistema
+
+    # Security/Networking
+    "net.ipv4.tcp_fastopen" = 3;                # TCP Fast Open (3=cliente+servidor)
+    "net.ipv4.tcp_slow_start_after_idle" = 0;    # Desactiva slow start tras idle (mejor keepalive)
   };
 
   # 3. KERNEL PARAMS: optimizaciones AMD + NVMe + USB
