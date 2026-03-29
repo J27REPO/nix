@@ -1,34 +1,52 @@
-{ config, pkgs, ... }:
+{ inputs, config, pkgs, ... }:
 
 {
-  # --- NEOVIM CON NVCHAD GESTIÓN MANUAL ---
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    package = pkgs.neovim-unwrapped;
+  imports = [
+    inputs.nix4nvchad.homeManagerModule
+  ];
 
-    # Paquetes extra para LSP y desarrollo
+  programs.nvchad = {
+    enable = true;
+    
+    # LSPs y herramientas para desarrollo
     extraPackages = with pkgs; [
-      nixd
+      # LSP servers
+      nixd              # Nix
       lua-language-server
       python3Packages.python-lsp-server
       nodePackages.bash-language-server
       nodePackages.typescript-language-server
-      nodePackages.vscode-langservers-extracted
+      nodePackages.vscode-langservers-extracted  # HTML, CSS, JSON, ESLint
+      
+      # Formateadores y linters
       nixfmt
       black
       prettier
       stylua
       shfmt
+      
+      # Debugging
+      delve   # Go debugger (por si acaso)
+      
+      # Herramientas útiles
       ripgrep
       fd
     ];
+
+    # Copiar configuración automáticamente
+    hm-activation = true;
+    backup = false;
   };
 
-  # --- NVCHAD CONFIG (gestionado via home-manager) ---
-  # Symlink la config de nvchad desde el repo nix
-  home.file.".config/nvim" = {
-    source = /home/${config.home.username}/nix/nvchad;
-    recursive = true;
-  };
+  # --- KEYBINDINGS via extraConfig ---
+  # Se carga después de NvChad
+  programs.nvchad.extraConfig = ''
+    local map = vim.keymap.set
+
+    -- Save file: Space + s + s
+    map("n", "<leader>ss", ":w<CR>", { desc = "Save file" })
+
+    -- Close neovim: Space + q + q
+    map("n", "<leader>qq", ":q<CR>", { desc = "Close neovim" })
+  '';
 }
