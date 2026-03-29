@@ -286,13 +286,6 @@
     enableZshIntegration = true; # Reemplaza el command-not-found handler
   };
 
-  # --- CCACHE ---
-  programs.ccache = {
-    enable = true;
-    usePrefixedOutput = true;  # Mantiene cache por versión de nixpkgs
-    compression = true;        # Comprime cache para ahorrar espacio
-  };
-
   # --- PAY-RESPECTS (antes thefuck) ---
   # Escribe `f` después de un comando mal escrito y lo corrige solo
   programs.pay-respects = {
