@@ -122,9 +122,8 @@ security.polkit.extraConfig = ''
   # 6. Firewall manual (Refuerzo para Sunshine y SSH)
   networking.firewall = {
     enable = true;
-    checkReversePath = "loose";
     allowedTCPPorts = [ 22 47984 47989 47990 48010 8283 ]; # SSH, Sunshine, Letta
-    allowedUDPPorts = [ 47998 47999 48000 48002 48010 ]; # Sunshine (41641 Tailscale eliminado)
+    allowedUDPPorts = [ 47998 47999 48000 48002 48010 ]; # Sunshine
   };
 
   # --- USUARIO Y GRUPOS ---

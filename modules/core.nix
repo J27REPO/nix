@@ -33,6 +33,8 @@
   services.usbmuxd.enable = true;
   services.flatpak.enable = true;
   services.blueman.enable = true;
+  services.firewalld.enable = true;
+  networking.firewall.backend = "firewalld";
   xdg.portal = {
     enable = true;
     extraPortals = [ 

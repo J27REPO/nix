@@ -252,6 +252,9 @@
       grep = "grep --color=auto";
       letta-mini = "LETTA_API_URL=http://macmini.local:8283 letta";
       letta-code = "LETTA_API_URL=http://macmini.local:8283 letta-code";
+
+      # CCACHE - usa cache de compilación si está disponible
+      ccache = "ccache";
       
       # Alias para editar rápido con micro
       conf = "micro ~/nix/flake.nix";
@@ -281,6 +284,13 @@
   programs.nix-index = {
     enable = true;
     enableZshIntegration = true; # Reemplaza el command-not-found handler
+  };
+
+  # --- CCACHE ---
+  programs.ccache = {
+    enable = true;
+    usePrefixedOutput = true;  # Mantiene cache por versión de nixpkgs
+    compression = true;        # Comprime cache para ahorrar espacio
   };
 
   # --- PAY-RESPECTS (antes thefuck) ---

@@ -41,7 +41,6 @@
 
   networking.firewall = {
     enable = true;
-    checkReversePath = "loose"; 
     allowedUDPPorts = [ 41641 ]; 
     allowedTCPPorts = [ 22 ];    
   };
@@ -125,6 +124,13 @@
     };
   };
 
+  # --- AMD GPU OVERDRIVE (nuevo módulo nativo 25.11+) ---
+  hardware.amdgpu.overdrive.enable = true;
+  hardware.amdgpu.overdrive.ppfeaturemask = "0xffffffff";
+
+  # --- LACT: GPU monitoring y control para AMD ---
+  services.lact.enable = true;
+
   # --- OPTIMIZACIONES DE RENDIMIENTO Y BATERÍA ---
 
   # 1. ZRAM: swap en RAM comprimida — más rápido que SSD y sin desgastarlo
@@ -167,8 +173,6 @@
     "amd_pstate=active"
     # USB autosuspend: suspende puertos USB no usados (ahorra ~0.5W)
     "usbcore.autosuspend=2"
-    # AMD GPU: permite control manual de frecuencias/voltaje (undervolting)
-    "amdgpu.ppfeaturemask=0xffffffff"
   ];
 
   # 4. POWER MANAGEMENT: gestión de energía general
