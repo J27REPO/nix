@@ -51,6 +51,8 @@
     ifuse
     mupdf
     unzip
+    kdePackages.okular
+    nss  # Certificados digitales (exportar desde Zen para Okular)
     blueman
     udiskie
     firefox
