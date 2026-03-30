@@ -17,6 +17,7 @@
       nodePackages.bash-language-server
       nodePackages.typescript-language-server
       nodePackages.vscode-langservers-extracted  # HTML, CSS, JSON, ESLint
+      marksman  # Markdown LSP
       
       # Formateadores y linters
       nixfmt
@@ -33,11 +34,23 @@
       fd
     ];
 
-    # Plugins extra (Copilot) - formato lazy.nvim
+    # Plugins extra - formato lazy.nvim
     extraPlugins = ''
       return {
         { "zbirenbaum/copilot.lua", event = "InsertEnter" };
         { "zbirenbaum/copilot-cmp", after = "copilot.lua" };
+
+        -- TODO comments highlighting
+        { "folke/todo-comments.nvim", dependencies = "nvim-lua/plenary.nvim" };
+
+        -- Markdown rendering estilo Obsidian
+        { "MeanderingProgrammer/render-markdown.nvim", after = "nvim-treesitter" };
+
+        -- Snacks: dashboard, indent guides, status column, etc.
+        { "folke/snacks.nvim" };
+
+        -- Colorizer: muestra colores hex en el texto
+        { "NvChad/nvim-colorizer.lua" };
       }
     '';
 
@@ -65,6 +78,18 @@
     -- Copilot cmp source
     require("copilot_cmp").setup()
 
+    -- TODO comments
+    require("todo-comments").setup()
+
+    -- Markdown rendering (Obsidian style)
+    require("render-markdown").setup({})
+
+    -- Snacks: dashboard, indent guides, etc.
+    require("snacks").setup()
+
+    -- Colorizer: muestra colores hex en tiempo real
+    require("colorizer").setup()
+
     local map = vim.keymap.set
 
     -- Save file: Space + s + s
@@ -72,5 +97,16 @@
 
     -- Close neovim with save: Space + q + q
     map("n", "<leader>qq", ":w<CR>:q<CR>", { desc = "Save and close neovim" })
+
+    -- Ctrl+C / Ctrl+V para copiar y pegar (usa clipboard del sistema)
+    map("v", "<C-c>", '"+y', { desc = "Copy to system clipboard" })
+    map("n", "<C-c>", '"+y', { desc = "Copy to system clipboard" })
+    map("v", "<C-v>", '"+p', { desc = "Paste from system clipboard" })
+    map("n", "<C-v>", '"+p', { desc = "Paste from system clipboard" })
+    map("i", "<C-v>", '<C-r>+', { desc = "Paste from system clipboard in insert mode" })
+
+    -- Ctrl+A para seleccionar todo el texto
+    map("n", "<C-a>", "ggVG", { desc = "Select all text" })
+    map("i", "<C-a>", "<Esc>ggVG", { desc = "Select all text" })
   '';
 }

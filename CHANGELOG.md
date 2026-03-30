@@ -2,6 +2,15 @@
 
 All notable changes to this NixOS configuration will be documented in this file.
 
+## [v1.7.0] - 2026-03-30
+### Added
+- Neovim: todo-comments.nvim (highlights TODO, FIXME, etc.)
+- Neovim: render-markdown.nvim (Markdown rendering Obsidian-style)
+- Neovim: snacks.nvim (dashboard, indent guides, status column)
+- Neovim: nvim-colorizer.lua (hex color preview)
+- Neovim: marksman LSP (Markdown language server)
+- MuPDF desktop entry for PDF viewing
+
 ## [v1.6.0] - 2026-03-30
 ### Added
 - kdePackages.qca (cryptographic support for Okular digital signatures)
