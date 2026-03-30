@@ -2,6 +2,11 @@
 
 All notable changes to this NixOS configuration will be documented in this file.
 
+## [v1.5.0] - 2026-03-30
+### Added
+- kdePackages.okular (PDF viewer with digital signature support)
+- nss (for certificate management)
+
 ## [v1.4.0] - 2026-03-29
 ### Added
 - AMD GPU Overdrive native module (replaces kernel param)
