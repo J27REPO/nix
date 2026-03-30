@@ -52,7 +52,9 @@
     mupdf
     unzip
     kdePackages.okular
-    nss  # Certificados digitales (exportar desde Zen para Okular)
+    kdePackages.qca  # Soporte criptográfico para Okular (firmas digitales)
+    gpgme            # GPGME para Okular (firmas digitales)
+    nss              # Certificados digitales
     blueman
     udiskie
     firefox
