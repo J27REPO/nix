@@ -51,6 +51,12 @@
 
         -- Colorizer: muestra colores hex en el texto
         { "NvChad/nvim-colorizer.lua" };
+
+        -- Telescope UI select mejora
+        { "nvim-telescope/telescope-ui-select.nvim" };
+
+        -- Trouble: panel de diagnostics
+        { "folke/trouble.nvim", dependencies = "nvim-treesitter" };
       }
     '';
 
@@ -89,6 +95,12 @@
 
     -- Colorizer: muestra colores hex en tiempo real
     require("colorizer").setup()
+
+    -- Telescope UI select
+    require("telescope").load_extension("ui-select")
+
+    -- Trouble: diagnostics panel
+    require("trouble").setup()
 
     local map = vim.keymap.set
 

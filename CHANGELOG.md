@@ -2,6 +2,11 @@
 
 All notable changes to this NixOS configuration will be documented in this file.
 
+## [v1.8.0] - 2026-03-30
+### Added
+- Neovim: telescope-ui-select (mejor UI para selectors)
+- Neovim: trouble.nvim (panel de diagnostics)
+
 ## [v1.7.0] - 2026-03-30
 ### Added
 - Neovim: todo-comments.nvim (highlights TODO, FIXME, etc.)
