@@ -2,6 +2,11 @@
 
 All notable changes to this NixOS configuration will be documented in this file.
 
+## [v1.6.0] - 2026-03-30
+### Added
+- kdePackages.qca (cryptographic support for Okular digital signatures)
+- gpgme (GPGME for Okular digital signatures)
+
 ## [v1.5.0] - 2026-03-30
 ### Added
 - kdePackages.okular (PDF viewer with digital signature support)
