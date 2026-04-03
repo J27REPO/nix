@@ -2,6 +2,11 @@
 
 All notable changes to this NixOS configuration will be documented in this file.
 
+## [v1.9.0] - 2026-04-03
+### Added
+- Zed: OPENAI_API_KEY exported via env when launching with Super+C
+- Zathura: PDF viewer with dark theme for viewing Typst PDFs
+
 ## [v1.8.0] - 2026-03-30
 ### Added
 - Neovim: telescope-ui-select (mejor UI para selectors)
