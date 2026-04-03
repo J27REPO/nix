@@ -54,7 +54,6 @@
     mupdf
     unzip
     zathura
-    pkgs.zathura-pdf-mupdf
     kdePackages.okular
     kdePackages.qca  # Soporte criptográfico para Okular (firmas digitales)
     gpgme            # GPGME para Okular (firmas digitales)
