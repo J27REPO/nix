@@ -19,10 +19,12 @@
     # GEMINI_API_KEY = "TU_API_KEY_AQUI"; # Descomenta y pon tu clave
     ANDROID_HOME = "/home/${user}/Android/Sdk";
     JAVA_HOME = "${pkgs.jdk21}/lib/openjdk";
+    OPENAI_API_KEY = "sk-cp-Nys0Y-Ow1J_-sghHQR_cTIWIzS501RF1j1FmyVYkUwKCwyjERinDHGrUGZX7F0wsXq3t8fRQVwaul9WdYeyax8NpQW1BXmd8kMttwKgsHcJnR4R-Z-Exz4s";
   };
 
   home.packages = with pkgs; [
     # Navegadores y Apps
+    zed-editor
     claude-code
     ncdu
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
@@ -51,6 +53,8 @@
     ifuse
     mupdf
     unzip
+    zathura
+    pkgs.zathura-pdf-mupdf
     kdePackages.okular
     kdePackages.qca  # Soporte criptográfico para Okular (firmas digitales)
     gpgme            # GPGME para Okular (firmas digitales)
@@ -335,7 +339,21 @@
   '';
 
   xdg.configFile."rofi/theme.rasi".source = ./rofi/theme.rasi;
-  
+
+  xdg.configFile."zathura/zathurarc".text = ''
+    set statusbar-hiding true
+    set guioptions ""
+
+    set adjust-open "width"
+
+    set completion-bg "#15191d"
+    set completion-fg "#e6e1cf"
+    set default-bg "#0f1419"
+    set default-fg "#e6e1cf"
+
+    set dbus-service true
+  '';
+
   xdg.configFile."hypr/scripts/RainbowBorders.sh" = {
     source = ./scripts/RainbowBorders.sh;
     executable = true;
