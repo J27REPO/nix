@@ -110,9 +110,14 @@
     -- Close neovim with save: Space + q + q
     map("n", "<leader>qq", ":w<CR>:q<CR>", { desc = "Save and close neovim" })
 
-    -- Ctrl+C / Ctrl+V para copiar y pegar (usa clipboard del sistema)
-    map("v", "<C-c>", '"+y', { desc = "Copy to system clipboard" })
-    map("n", "<C-c>", '"+y', { desc = "Copy to system clipboard" })
+    -- Ctrl+Shift+C / Ctrl+V para copiar y pegar (usa clipboard del sistema)
+    -- Ctrl+C no funciona en terminal por ser SIGINT, usar leader+c o leader+y
+    map("v", "<C-S-C>", '"+y', { desc = "Copy to system clipboard" })
+    map("n", "<C-S-C>", '"+y', { desc = "Copy to system clipboard" })
+    map("v", "<leader>c", '"+y', { desc = "Yank to system clipboard" })
+    map("n", "<leader>c", '"+y', { desc = "Yank to system clipboard" })
+    map("v", "<leader>y", '"+y', { desc = "Yank to system clipboard" })
+    map("n", "<leader>y", '"+y', { desc = "Yank to system clipboard" })
     map("v", "<C-v>", '"+p', { desc = "Paste from system clipboard" })
     map("n", "<C-v>", '"+p', { desc = "Paste from system clipboard" })
     map("i", "<C-v>", '<C-r>+', { desc = "Paste from system clipboard in insert mode" })
@@ -120,5 +125,10 @@
     -- Ctrl+A para seleccionar todo el texto
     map("n", "<C-a>", "ggVG", { desc = "Select all text" })
     map("i", "<C-a>", "<Esc>ggVG", { desc = "Select all text" })
+
+    -- Ctrl+F para fuzzy find dentro del archivo actual (telescope)
+    map("n", "<C-f>", "<cmd> Telescope current_buffer_fuzzy_find <CR>", { desc = "Fuzzy find in current file" })
+    map("i", "<C-f>", "<cmd> Telescope current_buffer_fuzzy_find <CR>", { desc = "Fuzzy find in current file" })
+    map("n", "<leader>f", "<cmd> Telescope current_buffer_fuzzy_find <CR>", { desc = "Fuzzy find in current file" })
   '';
 }
