@@ -6,6 +6,12 @@ All notable changes to this NixOS configuration will be documented in this file.
 ### Fixed
 - Security: minimax API key moved from hardcoded keybind to secrets.env (gitignored)
 
+## [v1.9.2] - 2026-04-04
+### Fixed
+- Neovim: copiar con leader+c o leader+y (space+c, space+y)
+- Neovim: fuzzy find con ctrl+f o leader+f
+- Neovim: Ctrl+C ya no interceptado (usa leader+c/y en vez de ctrl+c)
+
 ## [v1.9.0] - 2026-04-03
 ### Added
 - Zed editor keybind via Super+C (implementation had security issue - fixed in v1.9.1)
