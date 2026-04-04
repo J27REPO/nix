@@ -19,7 +19,7 @@
     # GEMINI_API_KEY = "TU_API_KEY_AQUI"; # Descomenta y pon tu clave
     ANDROID_HOME = "/home/${user}/Android/Sdk";
     JAVA_HOME = "${pkgs.jdk21}/lib/openjdk";
-    OPENAI_API_KEY = "sk-cp-Nys0Y-Ow1J_-sghHQR_cTIWIzS501RF1j1FmyVYkUwKCwyjERinDHGrUGZX7F0wsXq3t8fRQVwaul9WdYeyax8NpQW1BXmd8kMttwKgsHcJnR4R-Z-Exz4s";
+
   };
 
   home.packages = with pkgs; [
@@ -227,6 +227,9 @@
     syntaxHighlighting.enable = true;
     
     initContent = ''
+      # Cargar secrets (API keys, etc)
+      [ -f ~/nix/secrets.env ] && source ~/nix/secrets.env
+
       export PATH="$HOME/.opencode/bin:$HOME/.npm-global/bin:$PATH"
       export NPM_CONFIG_PREFIX="$HOME/.npm-global"
       fastfetch
