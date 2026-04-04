@@ -2,9 +2,13 @@
 
 All notable changes to this NixOS configuration will be documented in this file.
 
+## [v1.9.1] - 2026-04-04
+### Fixed
+- Security: minimax API key moved from hardcoded keybind to secrets.env (gitignored)
+
 ## [v1.9.0] - 2026-04-03
 ### Added
-- Zed: OPENAI_API_KEY exported via env when launching with Super+C
+- Zed editor keybind via Super+C (implementation had security issue - fixed in v1.9.1)
 - Zathura: PDF viewer with dark theme for viewing Typst PDFs
 
 ## [v1.8.0] - 2026-03-30
