@@ -149,7 +149,8 @@
         "$mainMod SHIFT, A, exec, ani-cli --rofi"
         
         "$mainMod, W, exec, zen"
-         "$mainMod, C, exec, env OPENAI_API_KEY=sk-cp-Nys0Y-Ow1J_-sghHQR_cTIWIzS501RF1j1FmyVYkUwKCwyjERinDHGrUGZX7F0wsXq3t8fRQVwaul9WdYeyax8NpQW1BXmd8kMttwKgsHcJnR4R-Z-Exz4s zeditor"
+        "$mainMod,O, exec, obsidian"
+         "$mainMod, C, exec, bash -c 'source ~/nix/secrets.env && zeditor'"
          "$mainMod SHIFT, W, exec, ~/.config/hypr/scripts/wallpaper-theme.sh"
          "$mainMod, D, exec, $menu"
         
