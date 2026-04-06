@@ -52,6 +52,7 @@
   # Forzar driver i965 para HD 4000; sin esto libva puede seleccionar el incorrecto
   environment.sessionVariables.LIBVA_DRIVER_NAME = "i965";
   environment.sessionVariables.VDPAU_DRIVER = "va_gl"; # VDPAU → VA-API (par de LIBVA_DRIVER_NAME)
+  environment.sessionVariables.ZED_ALLOW_EMULATED_GPU = "1"; # Permitir GPU emulada para Zed (llvmpipe)
 
   # Microcode Intel: aplica mitigaciones Spectre/Meltdown a nivel hardware (más rápido que SW)
   hardware.cpu.intel.updateMicrocode = true;
