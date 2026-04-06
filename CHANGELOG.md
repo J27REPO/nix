@@ -6,6 +6,10 @@ All notable changes to this NixOS configuration will be documented in this file.
 ### Fixed
 - Security: minimax API key moved from hardcoded keybind to secrets.env (gitignored)
 
+## [v1.9.5] - 2026-04-06
+### Fixed
+- Macmini: add ZED_ALLOW_EMULATED_GPU for Zed editor (llvmpipe fallback)
+
 ## [v1.9.4] - 2026-04-06
 ### Fixed
 - Macmini: docker failed to start due to firewalld/networking.firewall conflict
