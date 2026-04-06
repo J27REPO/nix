@@ -6,6 +6,11 @@ All notable changes to this NixOS configuration will be documented in this file.
 ### Fixed
 - Security: minimax API key moved from hardcoded keybind to secrets.env (gitignored)
 
+## [v1.9.4] - 2026-04-06
+### Fixed
+- Macmini: docker failed to start due to firewalld/networking.firewall conflict
+- Macmini: user-home icon changed to folder-neon for glassy theme consistency
+
 ## [v1.9.3] - 2026-04-05
 ### Fixed
 - Security: removed hardcoded OPENAI_API_KEY from home/default.nix, now uses secrets.env

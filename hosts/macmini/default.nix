@@ -3,6 +3,9 @@
 {
   imports = [ /etc/nixos/hardware-configuration.nix ];
   
+  # Disable firewalld - we use networking.firewall instead
+  services.firewalld.enable = lib.mkForce false;
+
   boot.kernelParams = [
     "snd_hda_intel.model=apple-headset-multi"
     "i915.enable_fbc=1"          # Compresión de framebuffer: reduce uso de ancho de banda de memoria
