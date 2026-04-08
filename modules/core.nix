@@ -33,10 +33,7 @@
   services.usbmuxd.enable = true;
   services.flatpak.enable = true;
   services.blueman.enable = true;
-  services.firewalld = {
-    enable = true;
-    settings.FirewallBackend = "iptables";
-  };
+  services.firewalld.enable = false;
   xdg.portal = {
     enable = true;
     extraPortals = [ 
@@ -123,8 +120,15 @@
    pkgs.pkgsi686Linux.libsodium
   ];
   virtualisation.docker.enable = true;
+  virtualisation.docker.autoPrune.enable = true;
   # Añade tu usuario al grupo docker para no usar sudo siempre
-  users.users.${user}.extraGroups = [ "docker" "wheel" "dialout" ]; # networkmanager/adbusers eliminados (systemd 258 gestiona acceso USB automáticamente)
+  users.users.${user}.extraGroups = [ "docker" "wheel" "dialout" ];
+
+  # Solución:告诉 Docker gestionar sus propias reglas de firewall
+  systemd.services.docker.serviceConfig.ExecStartPost = lib.mkAfter ''
+    ${pkgs.iptables}/bin/iptables -F
+    ${pkgs.iptables}/bin/iptables -X
+  ''; # networkmanager/adbusers eliminados (systemd 258 gestiona acceso USB automáticamente)
   # 2. Paquetes del Sistema Comunes
   environment.systemPackages = with pkgs; [
     git vim wget curl kitty fastfetch

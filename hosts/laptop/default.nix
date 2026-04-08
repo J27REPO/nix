@@ -79,6 +79,11 @@
     WLR_NO_HARDWARE_CURSORS = "1"; 
   };
   
+  # --- DOCKER ---
+  virtualisation.docker.enable = true;
+  virtualisation.docker.autoPrune.enable = true;
+  environment.systemPackages = [ pkgs.iptables ];
+
   # --- AUTO-CPUFREQ (Gestión automática de frecuencia CPU) ---
   # Reduce la frecuencia del CPU en batería y la sube al cargar.
   # Mejora notablemente la duración de batería sin hacer nada más.

@@ -100,7 +100,14 @@ security.polkit.extraConfig = ''
     };
   };
 
-  # 5. Letta Server (Container)
+  # 5. Docker
+  virtualisation.docker.enable = true;
+  virtualisation.docker.autoPrune.enable = true;
+  systemd.services.docker.wantedBy = [ "multi-user.target" ];
+  systemd.services.docker.after = [ "basic.target" ];
+  systemd.services.docker.requires = lib.mkForce [ ];
+
+  # Letta Server (Container)
   virtualisation.oci-containers.backend = "docker";
   virtualisation.oci-containers.containers.letta = {
     image = "letta/letta:latest";

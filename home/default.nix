@@ -24,6 +24,7 @@
 
   home.packages = with pkgs; [
     # Navegadores y Apps
+    lmstudio
     zed-editor
     claude-code
     ncdu
