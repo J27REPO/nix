@@ -18,9 +18,7 @@
     };
   };
 
-  # --- ACCESO REMOTO (SSH & VPN) ---
-  services.tailscale.enable = true;
-
+  # --- ACCESO REMOTO (SSH) ---
   services.avahi = {
     enable = true;
     nssmdns4 = true;
@@ -41,7 +39,6 @@
 
   networking.firewall = {
     enable = true;
-    allowedUDPPorts = [ 41641 ]; 
     allowedTCPPorts = [ 22 ];    
   };
 

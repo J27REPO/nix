@@ -2,6 +2,12 @@
 
 All notable changes to this NixOS configuration will be documented in this file.
 
+## [v1.9.6] - 2026-04-22
+### Removed
+- tailscale (VPN no usado - laptop)
+- letta container (no usado - macmini)
+- sunshine (game streaming no usado - macmini)
+
 ## [v1.9.1] - 2026-04-04
 ### Fixed
 - Security: minimax API key moved from hardcoded keybind to secrets.env (gitignored)
