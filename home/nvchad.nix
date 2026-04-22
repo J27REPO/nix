@@ -32,6 +32,7 @@
       # Herramientas útiles
       ripgrep
       fd
+      shellcheck  # Linting para scripts de shell
     ];
 
     # Plugins extra - formato lazy.nvim

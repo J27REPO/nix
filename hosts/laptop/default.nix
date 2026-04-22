@@ -84,18 +84,22 @@
   # --- AUTO-CPUFREQ (Gestión automática de frecuencia CPU) ---
   # Reduce la frecuencia del CPU en batería y la sube al cargar.
   # Mejora notablemente la duración de batería sin hacer nada más.
-  services.auto-cpufreq = {
+services.auto-cpufreq = {
     enable = true;
     settings = {
       battery = {
-        governor = "powersave";  # Ahorra batería cuando no está enchufado
-        turbo = "auto";          # Turbo solo cuando hace falta
-      };
-      charger = {
-        governor = "performance"; # Rendimiento máximo enchufado
+        governor = "powersave";
         turbo = "auto";
       };
-    };
+      charger = {
+        governor = "performance";
+        turbo = "auto";
+      };
+      thermal = {
+        passive_delay = 10;
+        polling_delay = 4;
+      };
+};
   };
 
   # --- THERMALD: Protección contra sobrecalentamiento ---
@@ -188,15 +192,17 @@
   # - Mejora latencia de GPU
   programs.gamemode = {
     enable = true;
-    enableRenice = true;        # Prioridad alta para juegos
+    enableRenice = true;
     settings = {
       general = {
         softrealtime = "auto";  # Prioridad de scheduling para audio/juegos
         renice = 10;            # Prioridad del proceso (0-20, menor = más prioridad)
+        default_core_affinity = 2;  # Usa solo cores físicos (evita hyperthreading siblings)
       };
       gpu = {
         apply_gpu_optimizations = "accept-responsibility";
         gpu_device = 0;         # Primera GPU (AMD integrada)
+        force_single_gpu_performance_level = "max";  # Forzar máxima frecuencia GPU
       };
     };
   };

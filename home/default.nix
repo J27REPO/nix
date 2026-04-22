@@ -9,7 +9,7 @@
 
   home.username = user;
   home.homeDirectory = "/home/${user}";
-  home.stateVersion = "24.05";
+  home.stateVersion = "25.05";
 
   # --- VARIABLES DE ENTORNO (Nvim por defecto) ---
   home.sessionVariables = {
@@ -83,7 +83,8 @@
     jdk21
     htop
     python3
-    rofi
+rofi
+    fuzzel  # Launcher minimalista para Wayland (alternativa ligera a rofi)
     waybar
     pavucontrol
     micro     

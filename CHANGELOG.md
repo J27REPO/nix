@@ -2,6 +2,18 @@
 
 All notable changes to this NixOS configuration will be documented in this file.
 
+## [v1.10.0] - 2026-04-22
+### Added
+- fuzzel (minimalist Wayland launcher)
+- shellcheck (shell script linting in Neovim)
+
+### Changed
+- stateVersion updated to 25.05 (core.nix + home/default.nix)
+- xdg.portal config updated (use config.common.default format)
+- Docker daemon settings: storage-driver=overlay2, log-opts for rotation
+- Gamemode enhancements: default_core_affinity, force_single_gpu_performance_level
+- auto-cpufreq thermal settings: passive_delay/polling_delay
+
 ## [v1.9.6] - 2026-04-22
 ### Removed
 - tailscale (VPN no usado - laptop)

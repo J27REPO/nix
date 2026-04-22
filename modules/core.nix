@@ -21,7 +21,7 @@
   # Builds de nix en prioridad idle — no compiten con el uso normal del PC
   nix.daemonCPUSchedPolicy = "idle";
   nixpkgs.config.allowUnfree = true;
-  system.stateVersion = "24.05";
+  system.stateVersion = "25.05";
   programs.ssh.startAgent = true;
   programs.zsh.enable = true;
   # programs.adb eliminado: systemd 258 gestiona udev/uaccess automáticamente

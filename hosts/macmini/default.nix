@@ -101,8 +101,16 @@ security.polkit.extraConfig = ''
   };
 
   # Docker daemon
-  virtualisation.docker.enable = true;
-  virtualisation.docker.autoPrune.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    autoPrune.enable = true;
+    daemon.settings = {
+      storage-driver = "overlay2";
+      log-driver = "json-file";
+      log-opts.max-size = "10m";
+      log-opts.max-file = "3";
+    };
+  };
   systemd.services.docker.wantedBy = [ "multi-user.target" ];
   systemd.services.docker.after = [ "basic.target" ];
   systemd.services.docker.requires = lib.mkForce [ ];
