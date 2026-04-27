@@ -23,6 +23,14 @@
   };
 
   home.packages = with pkgs; [
+    # Fuentes
+    inter
+    cantarell-fonts
+    roboto
+
+    # Iconos
+    papirus-icon-theme
+
     # Navegadores y Apps
     lmstudio
     zed-editor
@@ -66,7 +74,7 @@
     xdg-desktop-portal-hyprland
     thunar  
     libreoffice
-    vicinae   
+    # vicinae   
     obsidian
     swww
     psmisc
@@ -85,7 +93,6 @@
     python3
 rofi
     fuzzel  # Launcher minimalista para Wayland (alternativa ligera a rofi)
-    waybar
     pavucontrol
     micro     
     
@@ -343,6 +350,13 @@ rofi
   '';
 
   xdg.configFile."rofi/theme.rasi".source = ./rofi/theme.rasi;
+  xdg.configFile."rofi/config.rasi" = {
+    text = ''
+      @theme "spotlight"
+    '';
+    force = true;
+  };
+  xdg.configFile."fuzzel/fuzzel.ini".source = ./fuzzel/fuzzel.ini;
 
   xdg.configFile."zathura/zathurarc".text = ''
     set statusbar-hiding true

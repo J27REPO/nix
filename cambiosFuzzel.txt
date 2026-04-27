@@ -1,0 +1,31 @@
+# Fuzzel cambios pendientes
+
+## Errores de configuración actual
+```
+➜ fuzzel
+err: config.c:1057: /home/j27/.config/fuzzel/fuzzel.ini:19: [main].margin: 20: not a valid option: margin
+err: config.c:1057: /home/j27/.config/fuzzel/fuzzel.ini:20: [main].border-radius: 12: not a valid option: border-radius
+err: config.c:1057: /home/j27/.config/fuzzel/fuzzel.ini:22: [main].line-wrap: yes: not a valid option: line-wrap
+```
+
+## Opciones válidas a verificar en `man fuzzel.ini`:
+- horizontal-pad, vertical-pad, inner-pad
+- border.width, border.radius, border.selection-radius
+- line-wrap no existe, buscar opción correcta
+
+## Referencia visual: Vicinae (Raycast-like)
+El usuario quiere que fuzzel se parezca a Vicinae en apariencia. Vicinae es un launcher estilo Raycast:
+- Ventana centrada con bordes redondeados
+- Fondo oscuro con blur/transparencia
+- Búsqueda instantánea con fuzzy
+- Iconos de apps a la izquierda
+- Resultados con categorías
+- Diseño minimalista y limpio
+
+Estilo a buscar:
+- Background semi-transparente con blur (si Hyprland lo soporta)
+- Bordes redondeados estilo macOS
+- Prompt cyan/azul como accent
+- Texto blanco/gris claro
+- Selección con color accent
+- Sin bordes agresivos, más sutil

@@ -1,126 +1,110 @@
-/*******************************************************************************
- * ROFI Color theme
- * Theme: Minimalista Elegante
- * User: J27
- * NixOS Configuration
- *******************************************************************************/
-
 * {
-    /* Paleta Cyberpunk Suave */
-    bg-col:          rgba(21, 21, 21, 0.95);     /* Fondo más oscuro */
-    bg-col-light:    rgba(204, 102, 204, 0.06);   /* Magenta muy sutil */
-    border-col:      rgba(85, 153, 204, 0.35);     /* Borde azul suave */
-    selected-col:    rgba(204, 85, 85, 0.2);      /* Selección rojo suave */
-    accent-red:      #cc5555;                      /* Rojo suave */
-    accent-blue:     #5599cc;                      /* Azul suave */
-    accent-purple:   #aa66cc;                      /* Púrpura suave */
-    accent-cyan:     #55cccc;                      /* Cian suave */
-    fg-col:          #d0d0d0;                      /* Texto principal */
-    fg-col2:         #5599cc;                      /* Texto secundario */
-    fg-col3:         #cc5555;                      /* Texto acento */
-    grey:            #555555;                      /* Gris para texto deshabilitado */
-
-    width: 750;
-    font: "JetBrainsMono Nerd Font 12";
+    font: "Roboto 10";
+    bg0: #1f1f1f80;
+    bg1: #202020bf;
+    bg2: #2c2c2c;
+    bg3: #393939bf;
+    fg0: #ffffff;
+    fg1: #cecece;
+    accent: #60cdff;
+    urgent: @accent;
     background-color: transparent;
+    text-color: @fg0;
+    margin: 0;
+    padding: 0;
+    spacing: 0;
 }
 
-element-text, element-icon , mode-switcher {
-    background-color: inherit;
-    text-color:       inherit;
+element-icon, element-text, scrollbar {
+    cursor: pointer;
 }
 
 window {
-    height: 420px;
-    border: 1px;
-    border-color: @border-col;
-    background-color: @bg-col;
-    border-radius: 12px;
+    location: south;
+    width: 600px;
+    height: 600px;
+    y-offset: -4px;
+    background-color: @bg1;
+    border-radius: 8px;
 }
 
 mainbox {
-    background-color: transparent;
+    padding: 24px;
+    spacing: 24px;
 }
 
 inputbar {
-    children: [prompt,entry];
-    background-color: transparent;
-    border-radius: 8px;
     padding: 8px;
-    margin: 15px 20px 10px 20px;
+    spacing: 4px;
+    children: [ icon-search, entry ];
+    border: 0 0 2px 0 solid;
+    border-color: @accent;
+    border-radius: 2px;
+    background-color: @bg0;
 }
 
-prompt {
-    background-color: @accent-blue;
-    padding: 8px 12px;
-    text-color: @bg-col;
-    border-radius: 6px;
-    font-weight: bold;
+icon-search, entry, element-icon, element-text {
+    vertical-align: 0.5;
 }
 
-textbox-prompt-colon {
+icon-search {
     expand: false;
-    str: ":";
+    filename: "search-symbolic";
+    size: 24px;
 }
 
 entry {
-    padding: 8px 12px;
-    margin: 0 0 0 8px;
-    text-color: @fg-col;
-    background-color: @bg-col-light;
-    border-radius: 6px;
-    placeholder: "Buscar...";
-    placeholder-color: @grey;
+    font: "Roboto 12";
+    placeholder: "Type here to search";
+    placeholder-color: @fg1;
+}
+
+textbox {
+    padding: 4px 8px;
+    background-color: @bg2;
 }
 
 listview {
-    border: 0px;
-    padding: 8px 0px 8px;
-    margin: 0px 20px 15px 20px;
-    columns: 1;
-    lines: 6;
-    background-color: transparent;
-    scrollbar: false;
+    columns: 2;
+    spacing: 8px;
+    fixed-height: true;
+    fixed-columns: true;
 }
 
 element {
-    padding: 10px 12px;
-    background-color: transparent;
-    text-color: @fg-col;
-    border-radius: 8px;
-    margin: 2px 0;
+    spacing: 1em;
+    padding: 8px;
+    border-radius: 2px;
 }
 
-element-icon {
-    size: 24px;
-    margin: 0 8px 0 0;
+element normal urgent {
+    text-color: @urgent;
+}
+
+element normal active {
+    text-color: @accent;
+}
+
+element alternate active {
+    text-color: @accent;
+}
+
+element selected active {
+    text-color: @accent;
 }
 
 element selected {
-    background-color: @selected-col;
-    text-color: @accent-blue;
-    font-weight: bold;
+    background-color: @bg3;
 }
 
-element-text selected {
-    text-color: @accent-blue;
+element selected urgent {
+    background-color: @urgent;
 }
 
-mode-switcher {
-    spacing: 0;
-    margin: 0px 20px 10px 20px;
+element-icon {
+    size: 1.5em;
 }
 
-button {
-    padding: 8px 16px;
-    background-color: @bg-col-light;
-    text-color: @grey;
-    border-radius: 6px;
-    margin: 0 2px;
-}
-
-button selected {
-    background-color: @selected-col;
-    text-color: @accent-purple;
-    font-weight: bold;
+element-text {
+    text-color: inherit;
 }

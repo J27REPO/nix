@@ -4,8 +4,7 @@
   wayland.windowManager.hyprland = {
     enable = true;
     
-    # Desactivamos Waybar como pediste
-    # systemd.user.services.waybar.enable = false; 
+
 
     settings = {
       
@@ -28,7 +27,7 @@
 	  
       exec-once = [
               "hyprlock"
-              "vicinae server"
+              # "vicinae server"
               "swww-daemon"
               "swww img ~/.config/hypr/wallpaper.png"
               "udiskie --tray &"
@@ -38,7 +37,7 @@
               "wlsunset -l 40.4 -L -3.7 -t 4500 -T 6500"
             ];
       bindr = [
-              "SUPER, SUPER_L, exec, vicinae toggle"
+              "SUPER, SUPER_L, exec, fuzzel"
             ];
 
       misc = {
@@ -50,7 +49,7 @@
       "$mainMod" = "SUPER";
       "$terminal" = "kitty";
       "$fileManager" = "thunar";
-      "$menu" = "rofi -show drun";
+      "$menu" = "fuzzel";
       
       # --- INPUT (TECLADO DINÁMICO) ---
       input = {
@@ -94,8 +93,8 @@
         rounding = 10;
         blur = {
           enabled = true;
-          size = 3;
-          passes = 1;
+          size = 6;
+          passes = 3;
         };
       };
 
@@ -152,7 +151,7 @@
         "$mainMod,O, exec, obsidian"
          "$mainMod, C, exec, bash -c 'source ~/nix/secrets.env && zeditor'"
          "$mainMod SHIFT, W, exec, ~/.config/hypr/scripts/wallpaper-theme.sh"
-         "$mainMod, D, exec, $menu"
+         # "$mainMod, D, exec, $menu" # Removed - using double Super for fuzzel
         
         # Sistema
         "$mainMod, L, exec, hyprlock"
