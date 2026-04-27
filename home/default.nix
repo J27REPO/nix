@@ -356,7 +356,7 @@ rofi
     '';
     force = true;
   };
-  xdg.configFile."fuzzel/fuzzel.ini".source = ./fuzzel/fuzzel.ini;
+  xdg.configFile."fuzzel/fuzzel.ini".source = if hostname == "macmini" then ./fuzzel/fuzzel-macmini.ini else ./fuzzel/fuzzel.ini;
 
   xdg.configFile."zathura/zathurarc".text = ''
     set statusbar-hiding true
