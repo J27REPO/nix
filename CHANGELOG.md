@@ -2,6 +2,10 @@
 
 All notable changes to this NixOS configuration will be documented in this file.
 
+## [v1.10.1] - 2026-04-27
+### Fixed
+- fuzzel: macmini now uses larger font (14pt vs 9pt), wider window (80% vs 60%), more lines (20 vs 15)
+
 ## [v1.10.0] - 2026-04-22
 ### Added
 - fuzzel (minimalist Wayland launcher)
