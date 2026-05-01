@@ -2,6 +2,18 @@
 
 All notable changes to this NixOS configuration will be documented in this file.
 
+## [v1.11.0] - 2026-05-01
+### Added (Mac Mini only)
+- zramSwap: 4.7GB zstd compressed swap (~14GB effective at 3:1 ratio)
+- earlyoom: auto-kill memory hogs at <10% RAM free, prefer killing browsers/Java/Node, protect system processes
+- Kernel params: nowatchdog, audit=0 (CPU freed from unnecessary monitoring)
+- GPU tuning: i915.enable_guc=2 (better GPU scheduling), i915.enable_psr=0 (fix Ivy Bridge issues)
+- transparent_hugepage=always (reduced TLB misses and page faults)
+- Sysctl optimized for zram: swappiness=150, watermark_boost_factor=0, page-cluster=0
+
+### Fixed
+- Docker: removed duplicate enable=true from macmini config (already in core.nix)
+
 ## [v1.10.1] - 2026-04-27
 ### Fixed
 - fuzzel: macmini now uses larger font (14pt vs 9pt), wider window (80% vs 60%), more lines (20 vs 15)

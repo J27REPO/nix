@@ -2,18 +2,57 @@
 
 {
   imports = [ /etc/nixos/hardware-configuration.nix ];
-  
+
   # Disable firewalld - we use networking.firewall instead
   services.firewalld.enable = lib.mkForce false;
 
+  # --- KERNEL PARAMS: Optimizaciones Mac Mini Ivy Bridge ---
   boot.kernelParams = [
     "snd_hda_intel.model=apple-headset-multi"
-    "i915.enable_fbc=1"          # Compresión de framebuffer: reduce uso de ancho de banda de memoria
-    "transparent_hugepage=madvise" # Huge pages solo cuando la app las solicita (mejor que always)
+
+    # GPU i915 HD 4000
+    "i915.enable_fbc=1"         # Compresión de framebuffer: reduce ancho de banda de memoria
+    "i915.enable_guc=2"         # GuC firmware: mejor scheduling de GPU y power management
+    "i915.enable_psr=0"         # Panel Self Refresh: desactivado (causa problemas en Ivy Bridge)
+
+    # Memoria y rendimiento
+    "transparent_hugepage=always" # THP siempre activo: reduce TLB misses y page faults
+    "nowatchdog"                  # Desactiva NMI/hard/soft lockup detectors: libera CPU en desktop
+    "audit=0"                     # Desactiva audit del kernel: menos overhead en syscalls
   ];
 
   # Desktop+server: schedutil usa datos del scheduler para escalar frecuencia — mejor que ondemand
   powerManagement.cpuFreqGovernor = "schedutil";
+
+  # --- ZRAM: swap en RAM comprimida — más rápido que SSD y sin desgastarlo ---
+  # Con 16GB RAM, zstd comprime ~3:1 → 5GB zram ≈ 15GB swap efectiva
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 30;   # ~5GB en 16GB RAM
+  };
+
+  # --- EARLYOOM: mata procesos antes de que el sistema se congele ---
+  # OOM kernel es demasiado lento → earlyoom actúa al 10% RAM libre
+  services.earlyoom = {
+    enable = true;
+    extraArgs = [
+      "--prefer" "^(java|node|chrome|chromium|firefox|zen)$"
+      "--avoid" "^(init|systemd|sshd|Xorg|Hyprland|kitty)$"
+    ];
+    freeMemThreshold = 10;   # Actúa cuando queda <10% RAM libre
+  };
+
+  # --- SYSCTL: optimizaciones memoria con zram ---
+  boot.kernel.sysctl = {
+    # Con zram activo, swapear más es beneficioso (RAM comprimida > SSD)
+    "vm.swappiness" = lib.mkForce 150;
+    "vm.watermark_boost_factor" = 0;       # Evita pausas bajo presión de memoria
+    "vm.watermark_scale_factor" = 125;     # kswapd empieza antes, evita thrashing
+    "vm.page-cluster" = 0;                 # Sin prefetch de swap (estamos en RAM)
+    # vm.vfs_cache_pressure ya definido en core.nix (50)
+  };
+
   boot.kernelModules = [ "uinput" ];
   boot.initrd.kernelModules = [ "i915" ];           # Early KMS: i915 en initrd para TTY con aceleración
   boot.loader.timeout = 3;                          # Override del 0 de core.nix — tiempo de recuperación
@@ -100,9 +139,8 @@ security.polkit.extraConfig = ''
     };
   };
 
-  # Docker daemon
+  # Docker daemon — configuración adicional (enable ya en core.nix)
   virtualisation.docker = {
-    enable = true;
     autoPrune.enable = true;
     daemon.settings = {
       storage-driver = "overlay2";
