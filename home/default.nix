@@ -30,8 +30,9 @@
 
     # Iconos
     papirus-icon-theme
-
+    exfatprogs
     # Navegadores y Apps
+    yazi
     lmstudio
     zed-editor
     claude-code
@@ -69,6 +70,7 @@
     nss              # Certificados digitales
     blueman
     udiskie
+    inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.rustnet
     firefox
     inputs.autofirma-nix.packages.${pkgs.stdenv.hostPlatform.system}.autofirma
     xdg-desktop-portal-hyprland
@@ -280,7 +282,7 @@ rofi
       vi = "micro";   # Por si la costumbre te hace escribir vi
       vim = "micro";
       nano = "nvim";
-      
+      file = "yazi"; 
       # Alias para apagar pantalla
       apagar = "hyprctl dispatch dpms off";
     };

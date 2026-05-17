@@ -294,7 +294,25 @@
         "home-manager": "home-manager_2",
         "nix4nvchad": "nix4nvchad",
         "nixpkgs": "nixpkgs_3",
+        "rustnet": "rustnet",
         "zen-browser": "zen-browser"
+      }
+    },
+    "rustnet": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1777999275,
+        "narHash": "sha256-E2ItYSnT3WRSgPb5B+HDAlAPPmSLdt8qnE+2TiXHPk8=",
+        "owner": "domcyrus",
+        "repo": "rustnet",
+        "rev": "69ecba381105e1e05fb4e97b4cb6dc777aa2853d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "domcyrus",
+        "ref": "v1.3.0",
+        "repo": "rustnet",
+        "type": "github"
       }
     },
     "systems": {

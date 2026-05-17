@@ -8,8 +8,9 @@ My NixOS configuration with Hyprland, optimized for laptop and macmini.
 nix/
 ├── flake.nix              # Main flake (inputs, outputs, mkHost)
 ├── flake.lock             # Locked versions
-├── version.txt            # Current version (v1.4.0)
+├── version.txt            # Current version (v1.11.0)
 ├── CHANGELOG.md           # Version history
+├── README.md              # This file
 ├── home/                  # Home-manager user config
 │   ├── default.nix        # Main HM config
 │   ├── hyprland.nix       # Hyprland window manager
@@ -18,8 +19,10 @@ nix/
 ├── hosts/
 │   ├── laptop/default.nix # Laptop-specific config
 │   └── macmini/default.nix # Mac Mini-specific config
-└── modules/
-    └── core.nix           # Shared modules (boot, networking, etc.)
+├── modules/
+│   └── core.nix           # Shared modules (boot, networking, etc.)
+└── pkgs/
+    └── rustnet.nix        # Rustnet package (buildRustPackage)
 ```
 
 ## Features
@@ -71,6 +74,19 @@ reload
 | `hosts/macmini/default.nix` | Sunshine, Letta, Docker |
 | `modules/core.nix` | Shared services, firewall, flatpak |
 | `home/hyprland.nix` | Wayland compositor, workspaces, bindings |
+| `pkgs/rustnet.nix` | Rustnet package (buildRustPackage, eBPF enabled) |
+
+## Packages from Source
+
+### rustnet
+Per-process network monitor TUI with deep packet inspection. Built from `github:domcyrus/rustnet` via `buildRustPackage`. Requires `sudo` for packet capture:
+
+```bash
+sudo rustnet
+# Or grant capabilities:
+sudo setcap 'cap_net_raw,cap_bpf,cap_perfmon+eip' $(which rustnet)
+rustnet
+```
 
 ## Versioning
 

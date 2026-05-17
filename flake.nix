@@ -14,12 +14,18 @@
       url = "github:nix-community/nix4nvchad";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    rustnet = {
+      url = "github:domcyrus/rustnet/v1.3.0";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
       user = "j27";
+      pkgs = nixpkgs.legacyPackages.${system};
       
       # Función modificada para aceptar argumentos de teclado y monitor
       mkHost = hostname: kbLayout: kbVariant: kbOptions: monitorConfig: nixpkgs.lib.nixosSystem {
@@ -44,6 +50,11 @@
       };
     in
     {
+      packages.x86_64-linux.rustnet = pkgs.callPackage ./pkgs/rustnet.nix {
+        src = inputs.rustnet;
+        clang = pkgs.llvmPackages.clang-unwrapped;
+      };
+
       nixosConfigurations = {
         # Laptop: Español, sin variante, monitor automático a escala 1
         laptop = mkHost "laptop" "es" "" "" ",preferred,auto,1";
