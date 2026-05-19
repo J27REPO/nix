@@ -61,6 +61,9 @@
 
         # Mac Mini: US International (dead keys) — ´+a=á, `+a=à, ~+n=ñ, sin compose
         macmini = mkHost "macmini" "us" "intl" "" "DP-1,1920x1080@120,auto,1";
+
+        # Disco SSD externo: Español, genérico (se adapta a cualquier hardware)
+        disco = mkHost "disco" "es" "" "" "preferred,auto,1";
       };
     };
 }

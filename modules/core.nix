@@ -150,9 +150,16 @@
       echo "🔄 Reconstruyendo NixOS para: $(hostname)..."
       flakePath="$HOME/nix"
       git -C $flakePath add .
+
+      # Si es el SSD externo, regenerar hardware config para adaptarno al hardware actual
+      if [ "$(hostname)" = "disco" ]; then
+        echo "🔧 Regenerando configuración de hardware para este equipo..."
+        sudo nixos-generate-config --dir /etc/nixos
+      fi
+
       sudo nixos-rebuild switch --flake "$flakePath#$(hostname)" --impure
       echo "✅ ¡Listo! Sistema actualizado."
-      fastfetch # Muestra tu Mew al terminar
+      fastfetch
     '')
   ];
 

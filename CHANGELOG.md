@@ -2,7 +2,14 @@
 
 All notable changes to this NixOS configuration will be documented in this file.
 
-## [v1.11.0] - 2026-05-17
+## [v1.12.0] - 2026-05-19
+### Added
+- New `disco` host profile for external SSD (adapts to any hardware)
+- `disco` profile: modesetting GPU, auto-detecting drivers, ES keyboard layout
+- reload script: auto-regenerates hardware config when hostname=disco
+
+### Changed
+- reload script: if hostname is disco, runs `nixos-generate-config` before rebuild
 ### Added
 - rustnet: per-process network monitor TUI (packaged from source, eBPF + Landlock enabled)
 - New `pkgs/` directory: `pkgs/rustnet.nix` (buildRustPackage with cargoLock)
