@@ -2,27 +2,31 @@
 @define-color text #f8f8f2;
 @define-color accent #8be9fd;
 @define-color selection #44475a;
-@define-color border #ffff00;
+@define-color border #bd00ffee;
 
 window {
   background: transparent;
+  animation-duration: 0ms;
 }
 
 box.main {
   margin: 0;
-  border-radius: 10px;
+  border-radius: 8px;
   border: 1px solid @border;
   background-color: @bg;
+  animation: none;
 }
 
 text {
   min-height: 30px;
   padding: 6px 32px;
   color: @text;
+  animation: none;
 }
 
 .matches {
   background-color: rgba(0, 0, 0, 0);
+  animation: none;
 }
 
 box.plugin:first-child {
@@ -40,11 +44,13 @@ list.plugin {
 label.match {
   padding: 6px 32px;
   color: @text;
+  animation: none;
 }
 
 label.match.description {
   font-size: 10px;
   color: @accent;
+  animation: none;
 }
 
 label.plugin.info {
@@ -52,8 +58,13 @@ label.plugin.info {
   color: @text;
 }
 
+.match {
+  background: transparent;
+}
+
 .match:selected {
   background: @selection;
+  animation: none;
 }
 
 .match:selected label.match {
