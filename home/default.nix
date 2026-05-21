@@ -94,7 +94,7 @@
     htop
     python3
 rofi
-    fuzzel  # Launcher minimalista para Wayland (alternativa ligera a rofi)
+    anyrun
     pavucontrol
     micro     
     
@@ -358,7 +358,9 @@ rofi
     '';
     force = true;
   };
-  xdg.configFile."fuzzel/fuzzel.ini".source = if hostname == "macmini" then ./fuzzel/fuzzel-macmini.ini else ./fuzzel/fuzzel.ini;
+  xdg.configFile."anyrun/anyrun.conf".source = if hostname == "macmini" then ./anyrun/anyrun-macmini.conf else ./anyrun/anyrun.conf;
+  xdg.configFile."anyrun/style.css".source = ./anyrun/style.css;
+  xdg.configFile."anyrun/websearch.ron".source = ./anyrun/websearch.ron;
 
   xdg.configFile."zathura/zathurarc".text = ''
     set statusbar-hiding true

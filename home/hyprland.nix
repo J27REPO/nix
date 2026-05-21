@@ -37,7 +37,7 @@
               "wlsunset -l 40.4 -L -3.7 -t 4500 -T 6500"
             ];
       bindr = [
-              "SUPER, SUPER_L, exec, fuzzel"
+              "SUPER, SUPER_L, exec, anyrun"
             ];
 
       misc = {
@@ -49,7 +49,7 @@
       "$mainMod" = "SUPER";
       "$terminal" = "kitty";
       "$fileManager" = "thunar";
-      "$menu" = "fuzzel";
+      "$menu" = "anyrun";
       
       # --- INPUT (TECLADO DINÁMICO) ---
       input = {

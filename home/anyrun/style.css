@@ -1,0 +1,48 @@
+* {
+  background: rgba(37, 32, 48, 0.90);
+  color: #f8f8f2;
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 12px;
+}
+
+#window {
+  border: 1px solid #ffff00ff;
+  border-radius: 10px;
+}
+
+#entry {
+  padding: 6px 32px;
+}
+
+#entry:selected {
+  background: rgba(68, 71, 90, 0.85);
+}
+
+#entry:selected #text {
+  color: #8be9fdff;
+}
+
+#text {
+  color: #f8f8f2;
+}
+
+#icon {
+  margin-right: 8px;
+}
+
+.match {
+  padding: 6px 32px;
+}
+
+.match:selected {
+  background: rgba(68, 71, 90, 0.85);
+}
+
+.title {
+  color: #f8f8f2;
+}
+
+.description {
+  color: #8be9fdff;
+  font-size: 10px;
+}

@@ -1,0 +1,8 @@
+(
+  searchEngines: {
+    google: "https://google.com/search?q=",
+    duckduckgo: "https://duckduckgo.com/?q=",
+    ecosia: "https://ecosia.org/search?q=",
+  },
+  default: "duckduckgo",
+)

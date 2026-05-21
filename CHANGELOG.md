@@ -2,6 +2,16 @@
 
 All notable changes to this NixOS configuration will be documented in this file.
 
+## [v1.13.0] - 2026-05-21
+### Added
+- anyrun: new Wayland launcher (replaces fuzzel) with plugin ecosystem
+- Plugins: applications, shell, rink (calculator), symbols (unicode), websearch
+- Theme: cyberpunk CSS (magenta/cyan) matching system palette
+- Config: anyrun.conf (laptop), anyrun-macmini.conf (macmini), websearch.ron
+
+### Changed
+- fuzzel → anyrun as default launcher (Super+Super_L)
+
 ## [v1.12.0] - 2026-05-19
 ### Added
 - New `disco` host profile for external SSD (adapts to any hardware)
