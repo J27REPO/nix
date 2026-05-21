@@ -1,48 +1,61 @@
-* {
-  background: rgba(37, 32, 48, 0.90);
-  color: #f8f8f2;
-  font-family: "JetBrainsMono Nerd Font", monospace;
-  font-size: 12px;
+@define-color bg #252030;
+@define-color text #f8f8f2;
+@define-color accent #8be9fd;
+@define-color selection #44475a;
+@define-color border #ffff00;
+
+window {
+  background: transparent;
 }
 
-#window {
-  border: 1px solid #ffff00ff;
+box.main {
+  margin: 0;
   border-radius: 10px;
+  border: 1px solid @border;
+  background-color: @bg;
 }
 
-#entry {
+text {
+  min-height: 30px;
   padding: 6px 32px;
+  color: @text;
 }
 
-#entry:selected {
-  background: rgba(68, 71, 90, 0.85);
+.matches {
+  background-color: rgba(0, 0, 0, 0);
 }
 
-#entry:selected #text {
-  color: #8be9fdff;
+box.plugin:first-child {
+  margin-top: 0;
 }
 
-#text {
-  color: #f8f8f2;
+box.plugin.info {
+  min-width: 200px;
 }
 
-#icon {
-  margin-right: 8px;
+list.plugin {
+  background-color: rgba(0, 0, 0, 0);
 }
 
-.match {
+label.match {
   padding: 6px 32px;
+  color: @text;
+}
+
+label.match.description {
+  font-size: 10px;
+  color: @accent;
+}
+
+label.plugin.info {
+  font-size: 14px;
+  color: @text;
 }
 
 .match:selected {
-  background: rgba(68, 71, 90, 0.85);
+  background: @selection;
 }
 
-.title {
-  color: #f8f8f2;
-}
-
-.description {
-  color: #8be9fdff;
-  font-size: 10px;
+.match:selected label.match {
+  color: @accent;
 }

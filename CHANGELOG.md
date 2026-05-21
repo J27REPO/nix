@@ -2,7 +2,7 @@
 
 All notable changes to this NixOS configuration will be documented in this file.
 
-## [v1.13.0] - 2026-05-21
+## [v1.13.1] - 2026-05-21
 ### Added
 - anyrun: new Wayland launcher (replaces fuzzel) with plugin ecosystem
 - Plugins: applications, shell, rink (calculator), symbols (unicode), websearch
@@ -11,6 +11,7 @@ All notable changes to this NixOS configuration will be documented in this file.
 
 ### Changed
 - fuzzel → anyrun as default launcher (Super+Super_L)
+- anyrun: improved CSS styling and config (fixed appearance, faster response)
 
 ## [v1.12.0] - 2026-05-19
 ### Added
