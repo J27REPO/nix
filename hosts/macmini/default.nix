@@ -99,6 +99,7 @@
   # Daemon térmico Intel: gestiona P-states antes de que el kernel haga throttling de golpe
   # Útil para cargas sostenidas (builds nix)
   services.thermald.enable = true;
+  services.tuned.enable = true;
 
   # TRIM periódico para SSD (prolonga vida útil y mantiene rendimiento de escritura)
   services.fstrim.enable = true;

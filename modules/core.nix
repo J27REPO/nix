@@ -6,16 +6,21 @@
     experimental-features = [ "nix-command" "flakes" ];
     auto-optimise-store = true; # Deduplica ficheros idénticos en el store con hardlinks
     max-jobs = "auto";          # Builds/descargas en paralelo (usa todos los cores)
+    cores = 0;                  # Usa todos los cores para builds
+    min-free = 536870912;       # 500MB — GC automático si queda poco espacio
+    max-free = 1073741824;      # 1GB — target cuando corre GC
     trusted-users = [ "root" user ]; # Permite a j27 usar substituters directamente
     substituters = [
       "https://cache.nixos.org"
       "https://hyprland.cachix.org"
       "https://nix-community.cachix.org"
+      "https://nix-gaming.cachix.org"
     ];
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/SkPMuW6dN7vvU="
+      "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
     ];
   };
   # Builds de nix en prioridad idle — no compiten con el uso normal del PC
@@ -42,6 +47,7 @@
     ];
     config.common.default = [ "hyprland" "gtk" ]; 
   };
+  services.dbus.implementation = "broker";
   services.dbus.enable = true;
   services.dbus.packages = [ pkgs.gsettings-desktop-schemas pkgs.gtk3 ];
   services.udev.extraRules = ''
@@ -214,6 +220,7 @@
   # Habilitar screen saver y power management
   hardware.acpilight.enable = true;
 
+  boot.initrd.systemd.enable = true; # Initrd con systemd — arranque más rápido
   boot.tmp.cleanOnBoot = true; # Limpia /tmp en cada arranque
   boot.loader.systemd-boot.configurationLimit = 5;
 

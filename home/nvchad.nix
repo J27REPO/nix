@@ -14,9 +14,9 @@
       nixd              # Nix
       lua-language-server
       python3Packages.python-lsp-server
-      nodePackages.bash-language-server
-      nodePackages.typescript-language-server
-      nodePackages.vscode-langservers-extracted  # HTML, CSS, JSON, ESLint
+      bash-language-server
+      typescript-language-server
+      vscode-langservers-extracted  # HTML, CSS, JSON, ESLint
       marksman  # Markdown LSP
       
       # Formateadores y linters

@@ -2,6 +2,19 @@
 
 All notable changes to this NixOS configuration will be documented in this file.
 
+## [v1.14.0] - 2026-05-27
+### Added
+- nix-gaming caché: binary cache para gaming/Wine (acelera builds)
+- dbus-broker: mejor rendimiento IPC (reemplaza dbus-daemon)
+- systemd-initrd: arranque más rápido con initrd en systemd
+- TuneD: daemon de tuning integral (macmini)
+- min-free/max-free: GC proactivo de nix store
+- cores = 0: usa todos los cores para builds nix
+
+### Changed
+- flake.lock actualizado (nixpkgs 23-May, home-manager 25-May, nix4nvchad 27-May)
+- nvchad.nix: nodePackages → pkgs (nodePackages eliminado en nixpkgs)
+
 ## [v1.13.1] - 2026-05-21
 ### Added
 - anyrun: new Wayland launcher (replaces fuzzel) with plugin ecosystem
