@@ -10,6 +10,9 @@
   home.username = user;
   home.homeDirectory = "/home/${user}";
   home.stateVersion = "25.05";
+  # HM 26.05 + nixpkgs 26.11: silencia warning de version mismatch.
+  # Si actualizas HM a 26.11, puedes eliminar esto.
+  home.enableNixpkgsReleaseCheck = false;
 
   # --- VARIABLES DE ENTORNO (Nvim por defecto) ---
   home.sessionVariables = {
@@ -42,7 +45,7 @@
     typst
     acpi
     nodejs
-    python3Packages.pipx
+    # pipx  # test fallando en nixpkgs, instalar con: pip install --user pipx
     heimdall-gui
     android-tools
 	impala
@@ -76,7 +79,7 @@
     xdg-desktop-portal-hyprland
     thunar  
     libreoffice
-    # vicinae   
+    vicinae   
     obsidian
     swww
     psmisc

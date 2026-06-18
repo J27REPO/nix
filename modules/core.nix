@@ -19,7 +19,12 @@
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/SkPMuW6dN7vvU="
+      # ⚠️  Si nix-community.cachix.org deja de funcionar, la clave
+      #     puede haber cambiado. Verificar en:
+      #     https://nix-community.org/cache
+      #     (Antes estaba: .../SkPMuW6dN7vvU=, corregida a .../rkCWyvRCYg3Fs=)
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      # https://github.com/fufexan/nix-gaming
       "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
     ];
   };
@@ -163,8 +168,11 @@
         sudo nixos-generate-config --dir /etc/nixos
       fi
 
-      sudo nixos-rebuild switch --flake "$flakePath#$(hostname)" --impure
-      echo "✅ ¡Listo! Sistema actualizado."
+      # Usamos 'boot' en vez de 'switch' porque cambios de servicio
+      # críticos (dbus → broker) requieren reinicio. Así evitamos
+      # el error "Pre-switch check 'switchInhibitors' failed".
+      sudo nixos-rebuild boot --flake "$flakePath#$(hostname)" --impure
+      echo "✅ ¡Listo! Sistema construido. Reinicia para aplicar cambios."
       fastfetch
     '')
   ];

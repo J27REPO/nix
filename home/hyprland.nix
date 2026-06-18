@@ -27,7 +27,7 @@
 	  
       exec-once = [
               "hyprlock"
-              # "vicinae server"
+              "vicinae server"
               "swww-daemon"
               "swww img ~/.config/hypr/wallpaper.png"
               "udiskie --tray &"
@@ -37,7 +37,7 @@
               "wlsunset -l 40.4 -L -3.7 -t 4500 -T 6500"
             ];
       bindr = [
-              "SUPER, SUPER_L, exec, anyrun"
+              "SUPER, SUPER_L, exec, vicinae"
             ];
 
       misc = {
