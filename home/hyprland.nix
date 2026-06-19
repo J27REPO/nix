@@ -28,8 +28,7 @@
       exec-once = [
               "hyprlock"
               "vicinae server"
-              "swww-daemon"
-              "swww img ~/.config/hypr/wallpaper.png"
+              "swaybg -i ~/.config/hypr/wallpaper.png -m fill"
               "udiskie --tray &"
               "swayosd-server"
               "hypridle" # config en ~/.config/hypr/hypridle.conf (XDG default)
@@ -37,7 +36,7 @@
               "wlsunset -l 40.4 -L -3.7 -t 4500 -T 6500"
             ];
       bindr = [
-              "SUPER, SUPER_L, exec, vicinae"
+              "SUPER, SUPER_L, exec, vicinae open"
             ];
 
       misc = {
@@ -120,7 +119,6 @@
       };
 
       dwindle = {
-        pseudotile = "yes";
         preserve_split = "yes";
       };
       binde = [
@@ -159,7 +157,7 @@
        # "$mainMod, M, exit"
         "$mainMod, SPACE, togglefloating"
         "$mainMod, P, pseudo"
-        "$mainMod, J, togglesplit"
+        "$mainMod, J, layoutmsg, togglesplit"
 
         # TUS SCRIPTS (Prepáralos para cuando subas los archivos)
          "$mainMod, M, exec, ~/.config/hypr/scripts/RofiBeats.sh" # Radio (Super+M)

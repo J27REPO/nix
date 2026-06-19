@@ -73,7 +73,6 @@
     nss              # Certificados digitales
     blueman
     udiskie
-    inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.rustnet
     firefox
     inputs.autofirma-nix.packages.${pkgs.stdenv.hostPlatform.system}.autofirma
     xdg-desktop-portal-hyprland
@@ -81,7 +80,7 @@
     libreoffice
     vicinae   
     obsidian
-    swww
+    swaybg
     psmisc
     feh
     gemini-cli

@@ -14,7 +14,7 @@ fi
 wal -i "$WALLPAPER" -n
 
 # Aplicar wallpaper a Hyprland
-swww img "$WALLPAPER" --transition-type grow --transition-fps 60
+killall swaybg 2>/dev/null; swaybg -i "$WALLPAPER" -m fill &
 
 # Recargar Hyprland para aplicar colores
 hyprctl reload
