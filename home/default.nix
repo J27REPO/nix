@@ -130,6 +130,9 @@ rofi
     # UTILIDADES
     waylock            # Pantalla de bloqueo minimalista para Wayland
     wlsunset           # Control automatico de gamma segun hora del dia
+
+    # Proton Pass CLI
+    proton-pass-cli
     ];
 
 
