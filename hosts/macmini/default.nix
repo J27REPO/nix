@@ -104,14 +104,14 @@
   # TRIM periódico para SSD (prolonga vida útil y mantiene rendimiento de escritura)
   services.fstrim.enable = true;
   environment.systemPackages = [ pkgs.ethtool ];
-security.polkit.extraConfig = ''
-  polkit.addRule(function(action, subject) {
-    if (action.id == "org.freedesktop.login1.suspend" &&
-        subject.isInGroup("wheel")) {
-      return polkit.Result.YES;
-    }
-  });
-'';
+  security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+      if (action.id == "org.freedesktop.login1.suspend" &&
+          subject.isInGroup("wheel")) {
+        return polkit.Result.YES;
+      }
+    });
+  '';
   # --- ACCESO REMOTO ---
 
   # 3. SSH

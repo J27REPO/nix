@@ -149,6 +149,9 @@
     lutris
     gamemode  # Ya instalado en laptop, necesario para lutris
     aichat # Cliente de terminal para LLMs como Ollama (como alternativa a "clawd bot")
+    # Formateo y linting Nix
+    nixfmt
+    statix
     gsettings-desktop-schemas
       gtk3
       xdg-desktop-portal-gtk  # Asegúrate de que esté aquí también
@@ -229,7 +232,7 @@
   hardware.acpilight.enable = true;
 
   boot.initrd.systemd.enable = true; # Initrd con systemd — arranque más rápido
-  boot.tmp.cleanOnBoot = true; # Limpia /tmp en cada arranque
+  boot.tmp.useTmpfs = true; # /tmp en RAM (más rápido y se limpia solo)
   boot.loader.systemd-boot.configurationLimit = 5;
 
   # --- TUNING DE MEMORIA/IO (SSD + 16 GB RAM) ---
@@ -258,6 +261,12 @@
     RuntimeMaxUse=100M
   '';
   boot.loader.timeout = lib.mkDefault 0; # Hosts individuales pueden override (ej: macmini usa 3)
+
+  # --- ACELERAR BUILDS: sin docs ni man pages ---
+  documentation.enable = false;
+  documentation.man.enable = false;
+  documentation.doc.enable = false;
+  documentation.info.enable = false;
   nix.gc = {
       automatic = true;
       dates = "weekly";

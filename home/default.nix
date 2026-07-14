@@ -30,7 +30,7 @@
     inter
     cantarell-fonts
     roboto
-
+    
     # Iconos
     papirus-icon-theme
     exfatprogs
@@ -74,7 +74,6 @@
     blueman
     udiskie
     firefox
-    inputs.autofirma-nix.packages.${pkgs.stdenv.hostPlatform.system}.autofirma
     xdg-desktop-portal-hyprland
     thunar  
     libreoffice

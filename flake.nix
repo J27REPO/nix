@@ -19,9 +19,15 @@
       url = "github:domcyrus/rustnet/v1.3.0";
       flake = false;
     };
+
+    # Formateo y linting de código Nix
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, treefmt-nix, ... }@inputs:
     let
       system = "x86_64-linux";
       user = "j27";
@@ -53,6 +59,15 @@
       packages.x86_64-linux.rustnet = pkgs.callPackage ./pkgs/rustnet.nix {
         src = inputs.rustnet;
         clang = pkgs.llvmPackages.clang-unwrapped;
+      };
+
+      # --- Formateo y linting: `nix fmt` y `nix flake check` ---
+      formatter.x86_64-linux = treefmt-nix.lib.x86_64-linux.mkWrapper {
+        projectRootFile = "flake.nix";
+        programs = {
+          nixfmt.enable = true;
+          statix.enable = true;
+        };
       };
 
       nixosConfigurations = {
