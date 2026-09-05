@@ -30,7 +30,7 @@
     inter
     cantarell-fonts
     roboto
-    
+    aider-chat
     # Iconos
     papirus-icon-theme
     exfatprogs
@@ -101,6 +101,7 @@ rofi
     
     # Multimedia y Scripts
     mpv
+    gtk3
     mpvpaper
     grim
     slurp
@@ -245,7 +246,7 @@ rofi
       # Cargar secrets (API keys, etc)
       [ -f ~/nix/secrets.env ] && source ~/nix/secrets.env
 
-      export PATH="$HOME/.opencode/bin:$HOME/.npm-global/bin:$PATH"
+      export PATH="$HOME/.local/bin:$HOME/.opencode/bin:$HOME/.npm-global/bin:$PATH"
       export NPM_CONFIG_PREFIX="$HOME/.npm-global"
       fastfetch
       stty intr ^Z

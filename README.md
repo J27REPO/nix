@@ -65,6 +65,29 @@ sudo nixos-rebuild switch --flake ~/nix#$(hostname) --impure
 reload
 ```
 
+## Precompiled Binaries (JiruHub)
+
+NixOS no sigue FHS, por lo que binarios precompilados como **JiruHub** (app Flutter/GTK) no encuentran sus librerías. La solución usa dos mecanismos:
+
+### nix-ld (sistema)
+
+`programs.nix-ld.enable = true` en `modules/core.nix` crea un linker que busca librerías en `/run/current-system/sw/share/nix-ld/lib/`. Las librerías necesarias se declaran en `programs.nix-ld.libraries`.
+
+### Wrapper script (~/.local/bin/jiruhub)
+
+Algunas librerías (como `zlib` 32-bit) pueden pisar a las de 64-bit en el flat dir de nix-ld. El wrapper resuelve esto anteponiendo la ruta 64-bit en `LD_LIBRARY_PATH`:
+
+```bash
+export LD_LIBRARY_PATH="$ZLIB64:$NIX_LD_LIB:$JIRUHUB_LIB"
+exec "$JIRUHUB_BIN" "$@"
+```
+
+### Para añadir un nuevo binario precompilado
+
+1. Agrega las librerías que necesita a `programs.nix-ld.libraries` en `modules/core.nix`
+2. Si hay conflicto 32/64-bit, crea un wrapper en `~/.local/bin/` similar al de JiruHub
+3. Asegúrate de que `~/.local/bin/` esté en el PATH (via `home.sessionVariables` o `initContent` en `home/default.nix`)
+
 ## Key Configs
 
 | File | Purpose |

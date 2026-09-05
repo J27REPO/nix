@@ -1,7 +1,7 @@
 { pkgs, lib, user, ... }:
 
 {
-  imports = [ /etc/nixos/hardware-configuration.nix ];
+  imports = [ ./hardware-configuration.nix ];
 
   # --- NETWORKING & HOSTNAME ---
   networking.hostName = "laptop";

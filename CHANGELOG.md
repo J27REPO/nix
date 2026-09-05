@@ -2,6 +2,17 @@
 
 All notable changes to this NixOS configuration will be documented in this file.
 
+## [v1.15.0] - 2026-07-08
+### Added
+- JiruHub: precompiled Flutter/GTK app funcionando en NixOS
+- `programs.nix-ld.libraries`: gdk-pixbuf, harfbuzz, libepoxy, fontconfig, mpv
+- Wrapper `~/.local/bin/jiruhub`: resuelve conflicto zlib 32/64-bit anteponiendo ruta 64-bit
+- Documentación en README sobre cómo ejecutar binarios precompilados en NixOS
+
+### Fixed
+- `hosts/laptop/default.nix`: hardware-config import cambiado de ruta absoluta a relativa (`./hardware-configuration.nix`) para evitar error de pureza en flakes
+- `home/default.nix`: `$HOME/.local/bin` agregado al PATH para que `jiruhub` sea detectable como comando
+
 ## [v1.14.0] - 2026-05-27
 ### Added
 - nix-gaming caché: binary cache para gaming/Wine (acelera builds)

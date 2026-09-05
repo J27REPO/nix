@@ -84,9 +84,14 @@
         mesa        # Proporciona drivers y suele incluir gbm
         libgbm      # Se añade directamente, no como xorg.libgbm
         gtk3
+        gdk-pixbuf
         pango
         cairo
         expat
+        harfbuzz
+        libepoxy
+        fontconfig
+        mpv
         
         libx11
         libxcursor
